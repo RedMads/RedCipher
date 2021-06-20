@@ -32,6 +32,34 @@ python3 red_cipher.py -d aes -f ENC_FILENAME.redc
 ```
 ***
 
+## Usage RSA:
+***
+encrypt Text with RSA:
+```
+python3 red_cipher.py -e rsa -m "Your Message"
+```
+***
+decrypt Cipher text with RSA:
+```
+python3 red_cipher.py -d rsa -m "Encrypted Message"
+```
+***
+encrypt File with RSA:
+```
+python3 red_cipher.py -e rsa -f FILENAME
+```
+***
+decrypt encrypted file with RSA:
+```
+python3 red_cipher.py -d rsa -f ENC_FILENAME.redc
+```
+***
+Use -l to specfiy RSA key file:
+```
+python3 red_cipher.py -l KEY_PATH.pem
+```
+***
+
 ## install for  linux
 ***
 ```
