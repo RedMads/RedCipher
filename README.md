@@ -70,7 +70,7 @@ Use -l to specfiy RSA key file:
 ```
 python3 red_cipher.py -l KEY_PATH.pem
 ```
-***
+
 
 ## install for  linux
 ***
@@ -81,7 +81,7 @@ cd RedCipher
 
 bash install.sh
 ```
-***
+
 
 
 ## install for  Termux
@@ -93,4 +93,4 @@ cd RedCipher
 
 bash termux_install.sh
 ```
-***
+
