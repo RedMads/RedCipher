@@ -11,19 +11,23 @@ Advanced Encryption / Decryption tool !
 
 ## install for  linux
 ***
+```
 git clone https://github.com/RedMads/RedCipher.git
 
 cd RedCipher
 
 bash install.sh
+```
 ***
 
 
 ## install for  Termux
 ***
+```
 git clone https://github.com/RedMads/RedCipher.git
 
 cd RedCipher
 
 bash termux_install.sh
+```
 ***
