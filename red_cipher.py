@@ -63,7 +63,6 @@ class Main:
         parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < MESSAGE > : this option to specify message")
         parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < BYTE SIZE > : generate RSA keys")
         parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < KEY PATH > : load key file to encrypt or decrypt")
-        parser.add_argument('-u', action='store', dest='update', default=None, nargs='?', help="to Update the script")
         
 
         args = parser.parse_args()
@@ -150,19 +149,6 @@ class Main:
             self.load_path = args.load
             self.show_help = False
             self.update = False
-
-
-        if args.update == None:
-
-            self.show_help = False
-
-            if self.update:
-
-                system("bash update.sh")
-
-            elif not self.update:
-                pass
-
 
         if self.show_help:
 
