@@ -25,50 +25,50 @@ Advanced Encryption / Decryption tool !
 
 ## Usage AES:
 ***
-encrypt Text with AES:
+encrypt Text:
 ```
 python3 red_cipher.py -e aes -m "Your Message"
 ```
 
-decrypt Cipher text with AES:
+decrypt Cipher text:
 ```
 python3 red_cipher.py -d aes -m "Encrypted Messsge"
 ```
 
-encrypt File with AES:
+encrypt File:
 ```
 python3 red_cipher.py -e aes -f FILENAME
 ```
 
-decrypt encrypted File with AES:
+decrypt encrypted File:
 ```
 python3 red_cipher.py -d aes -f ENC_FILENAME.redc
 ```
 
 ## Usage RSA:
 ***
-encrypt Text with RSA:
+encrypt Text:
 ```
 python3 red_cipher.py -e rsa -m "Your Message"
 ```
-decrypt Cipher text with RSA:
+decrypt Cipher text:
 ```
 python3 red_cipher.py -d rsa -m "Encrypted Message"
 ```
 
-encrypt File with RSA:
+encrypt File:
 ```
 python3 red_cipher.py -e rsa -f FILENAME
 ```
 
-decrypt encrypted file with RSA:
+decrypt encrypted file:
 ```
 python3 red_cipher.py -d rsa -f ENC_FILENAME.redc
 ```
 
-Use -l to specfiy RSA key file:
+Use -l to specfiy RSA key:
 ```
-python3 red_cipher.py -l KEY_PATH.pem
+python3 red_cipher.py -l KEY_NAME.pem
 ```
 
 
