@@ -2,7 +2,7 @@
 Advanced Encryption / Decryption tool !
 
 
-# Screenshot
+# Screenshots
 ![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/help.png)
 ![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/aes_encrypt.png)
 ![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/aes_decrypt.png)
