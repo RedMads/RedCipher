@@ -1,12 +1,6 @@
-try:
-    from src.encryptor import Encryptor
-
-except ModuleNotFoundError:
-
-    from encryptor import Encryptor
-
+from src.encryptor import Encryptor
 from os import remove, path
-
+from src.handle_json import Handle_json
 
 
 
@@ -17,8 +11,11 @@ class FileEncryptor:
     def __init__(self):
 
         self.e_obj = Encryptor()
+        self.h_obj = Handle_json()
 
-        self.ext = ".redc"
+        self.h_obj.load_json("settings.json")
+
+        self.ext = self.h_obj.get_ext()
     
 
     # This Function Encrypt a File with fernet key!!
