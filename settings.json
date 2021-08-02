@@ -1,0 +1,10 @@
+{
+    "settings": {
+
+        "salt": "Abo_Na9r!L*C3%T1GgZ#KqSDYMzi64hS#ilDMBaN*4C0K98MdV#GXl^HIm!",
+        "separator": "#####",
+        "extention": ".redc",
+        "key_size": 4096
+        
+    }
+}
