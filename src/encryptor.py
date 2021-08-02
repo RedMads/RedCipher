@@ -2,7 +2,7 @@
 # Some Great librarys!!!!!!
 from Crypto.PublicKey import RSA
 from Crypto import Random
-from Crypto.Cipher import PKCS1_OAEP #ValueError: Plaintext is too long.
+from Crypto.Cipher import PKCS1_OAEP 
 from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
@@ -10,6 +10,7 @@ from base64 import b64decode, b64encode, urlsafe_b64encode
 from getpass import getuser
 from os import mkdir, listdir, chdir, getcwd, urandom, path, remove
 from pathlib import Path
+from src.handle_json import Handle_json
 
 
 # The Main class!
@@ -17,14 +18,19 @@ class Encryptor:
 
     def __init__(self):
 
-        self.salt = "Abo_Na9r!L*C3%T1GgZ#KqSDYMzi64hS#ilDMBaN*4C0K98MdV#GXl^HIm!"
+        self.h_obj = Handle_json()
+        self.h_obj.load_json("settings.json")
 
-        self.keys_dir = getcwd() + "/Keys"
+        self.salt = self.h_obj.get_salt()
+        self.sep = self.h_obj.get_separator()
+        self.keys_size = self.h_obj.get_keysize()
 
+
+        self.keys_dir = path.abspath("Keys")
         self.public_key_file = self.keys_dir + "/public.pem"
         self.private_key_file = self.keys_dir + "/private.pem"
 
-        self.sip = "#####"
+        
 
 
     # This Function check the main keys directory !
@@ -100,16 +106,16 @@ class Encryptor:
     # Args < KeySize: int / default: 4096 >
     # Notice: the keys size was taken from constructor function up! 
 
-    def generate_keys(self, KeySize=4096):
+    def generate_keys(self):
                     
-        private = RSA.generate(KeySize)
+        private = RSA.generate(self.keys_size)
 
 
-        with open(self.keys_dir + "/private.pem","wb") as private_file:
+        with open(self.private_key_file, "wb") as private_file:
                     
             private_file.write(private.export_key())
                     
-        with open(self.keys_dir + "/public.pem","wb") as public_file:
+        with open(self.public_key_file, "wb") as public_file:
                     
             public_file.write(private.publickey().export_key())        
 
@@ -127,7 +133,7 @@ class Encryptor:
 
         encrypted_data = aes_cipher.encrypt(message); encrypted_aes_key = rsa_cipher.encrypt(aes_key)
 
-        full_encrypted = b64encode(encrypted_aes_key).decode() + self.sip + b64encode(encrypted_data).decode()
+        full_encrypted = b64encode(encrypted_aes_key).decode() + self.sep + b64encode(encrypted_data).decode()
 
         return full_encrypted
 
@@ -142,9 +148,9 @@ class Encryptor:
 
         key = RSA.import_key(open(self.private_key_file).read()); rsa_cipher = PKCS1_OAEP.new(key)
 
-        enc_aes_key = enc_message.decode().split(self.sip)[0]; aes_key = rsa_cipher.decrypt(b64decode(enc_aes_key))
+        enc_aes_key = enc_message.decode().split(self.sep)[0]; aes_key = rsa_cipher.decrypt(b64decode(enc_aes_key))
 
-        dec_data = enc_message.decode().split(self.sip)[1]; aes_cipher = Fernet(aes_key)
+        dec_data = enc_message.decode().split(self.sep)[1]; aes_cipher = Fernet(aes_key)
 
         return aes_cipher.decrypt(b64decode(dec_data))
 
@@ -161,7 +167,7 @@ class Encryptor:
 
         encrypted_data = aes_cipher.encrypt(message); encrypted_aes_key = rsa_cipher.encrypt(aes_key)
 
-        full_encrypted = b64encode(encrypted_aes_key).decode() + self.sip + b64encode(encrypted_data).decode()
+        full_encrypted = b64encode(encrypted_aes_key).decode() + self.sep + b64encode(encrypted_data).decode()
 
         return full_encrypted
 
@@ -172,9 +178,9 @@ class Encryptor:
 
         key = RSA.import_key(open(priv_key_path).read()); rsa_cipher = PKCS1_OAEP.new(key)
 
-        enc_aes_key = enc_message.decode().split(self.sip)[0]; aes_key = rsa_cipher.decrypt(b64decode(enc_aes_key))
+        enc_aes_key = enc_message.decode().split(self.sep)[0]; aes_key = rsa_cipher.decrypt(b64decode(enc_aes_key))
 
-        dec_data = enc_message.decode().split(self.sip)[1]; aes_cipher = Fernet(aes_key)
+        dec_data = enc_message.decode().split(self.sep)[1]; aes_cipher = Fernet(aes_key)
 
         return aes_cipher.decrypt(b64decode(dec_data))
             
