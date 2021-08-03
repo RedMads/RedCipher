@@ -4,6 +4,7 @@ from Crypto.PublicKey import RSA
 from Crypto import Random
 from Crypto.Cipher import PKCS1_OAEP 
 from cryptography.fernet import Fernet
+from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from base64 import b64decode, b64encode, urlsafe_b64encode
@@ -78,6 +79,7 @@ class Encryptor:
             length=32,
             salt= self.salt.encode(),
             iterations=100000,
+            backend= default_backend()
         )
 
 
