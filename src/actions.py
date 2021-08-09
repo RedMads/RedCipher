@@ -3,6 +3,7 @@ from src.file_encryptor import FileEncryptor
 from src.banner import *
 import getpass
 import os
+import shutil
 
 class Action:
 
@@ -13,7 +14,7 @@ class Action:
 
 
 
-
+    # This Function ask the user to input password !
     def get_password(self, retype=True):
 
         if retype:
@@ -21,6 +22,12 @@ class Action:
             password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: ")
 
             retype_password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Retype Password{aqua}: ")
+
+
+            if password == "": 
+                
+                print(f"{aqua}[{red}!{aqua}] {red}Please Enter vaild password")
+                exit(1)
 
             if password == retype_password:
 
@@ -41,7 +48,7 @@ class Action:
 
             return key
 
-
+    # This function check if file is exists or not
     def check_file(self, filepath):
 
         try:
@@ -53,6 +60,8 @@ class Action:
             exit(1)
 
 
+
+    # This function check if the path is directory or file 
     def check_dir(self, path):
 
         if not os.path.isdir(path):
@@ -65,6 +74,49 @@ class Action:
             exit(1)
 
 
+    # This function copy files
+    def copy_file(self, filepath):
+
+        filename = os.path.basename(filepath)
+
+        if "/" in filepath:
+
+            c_filepath = os.path.dirname(filepath) + "/C_" + filename
+
+        else:
+
+            c_filepath = "C_" + filename
+
+
+        shutil.copy(filepath, c_filepath)
+
+        return c_filepath
+
+
+    # This function if he want overwrite file with encryption or not
+    def overwrite_action(self):
+
+        # Just give the user some spcae LOL !
+
+        answers_y = ["y", "yes", "ye","yep", "yah", "ya", "yeah"]
+
+        answers_n = ["n", "no", "nope", "nah"]
+
+
+        while True:
+
+            inp = input(f"{aqua}[{red}?{aqua}]{red} Do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}):{red} ").lower().strip()
+
+            if inp in answers_y: return "y"; break
+
+            elif inp in answers_n: return "n"; break
+
+            else: continue
+
+
+
+
+    # This function handle AES encryption or decrption
     def aes_action(self, msg, encryption=True):
 
         if encryption:
@@ -81,24 +133,35 @@ class Action:
 
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
-            except Exception as e:
-
-                print(e)
+            except Exception:
 
                 print(f"{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!")
                 exit(1)
 
 
+    # This function handle AES file Encryption 
     def aes_file_action(self, path, encryption=True):
 
         self.check_dir(path)
 
         self.check_file(path)
-            
+
+
         if encryption:
 
-            encrypted_file = self.f_obj.fernet_encrypt_file(path, self.get_password())
-            print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+            overwrite_answer = self.overwrite_action()
+
+            if  overwrite_answer == "y":
+
+                encrypted_file = self.f_obj.fernet_encrypt_file(path, self.get_password())
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+
+            elif overwrite_answer == "n":
+
+                c_filepath = self.copy_file(path)
+
+                encrypted_file = self.f_obj.fernet_encrypt_file(c_filepath, self.get_password())
+                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
 
@@ -114,7 +177,7 @@ class Action:
                 exit(1)
 
 
-
+    # This function handle RSA encryption and decryption!
     def rsa_action(self, msg, encryption=True):
 
         if encryption:
@@ -137,18 +200,29 @@ class Action:
             
 
 
-
+    # This function handle RSA file Encryption and Decryption
     def rsa_file_action(self, path, encryption=True):
 
         self.check_dir(path)
 
         self.check_file(path)
 
+
         if encryption:
 
-            encrypted_file = self.f_obj.rsa_encrypt_file(path)
-            print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+            overwrite_answer = self.overwrite_action()
 
+            if overwrite_answer == "y":
+
+                encrypted_file = self.f_obj.rsa_encrypt_file(path)
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+
+            elif overwrite_answer == "n":
+
+                c_filepath = self.copy_file(path)
+
+                encrypted_file = self.f_obj.rsa_encrypt_file(c_filepath)
+                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
         elif not encryption:
@@ -165,7 +239,7 @@ class Action:
 
 
 
-
+    # This function handle RSA encryption and decryption by loading key !
     def rsa_action_load(self, msg, path, encryption=True):
 
         self.check_dir(path)
@@ -189,6 +263,7 @@ class Action:
                 exit(1)
 
 
+    # This function handle RSA file Encryption and Decryption by loading key !
     def rsa_file_action_load(self, path, key_path, encryption=True):
 
         self.check_dir(path)
@@ -197,8 +272,20 @@ class Action:
 
         if encryption:
 
-            encrypted_file = self.f_obj.rsa_encrypt_file_load(path, key_path)
-            print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+            overwrite_answer = self.overwrite_action()
+
+            if overwrite_answer == "y":
+
+                encrypted_file = self.f_obj.rsa_encrypt_file_load(path, key_path)
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+
+
+            elif overwrite_answer == "n":
+
+                c_filepath = self.copy_file(path)
+
+                encrypted_file = self.f_obj.rsa_encrypt_file_load(c_filepath, key_path)
+                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
         elif not encryption:
             
