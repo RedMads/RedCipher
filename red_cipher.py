@@ -73,7 +73,7 @@ class Main:
             self.enc_mode = self.mode[0]
             self.algo = args.encrypt
             self.show_help = False
-            self.update = False
+            
 
             if str(self.algo).lower() in self.algrothims:
                 
@@ -88,7 +88,7 @@ class Main:
             self.enc_mode = self.mode[1]
             self.algo = args.decrypt
             self.show_help = False
-            self.update = False
+ 
 
             if str(self.algo).lower() in self.algrothims:
 
@@ -103,21 +103,21 @@ class Main:
 
             self.msg = args.message
             self.show_help = False
-            self.update = False
+ 
 
         elif args.file:
 
             self.file_mode = True
             self.file_path = args.file
             self.show_help = False
-            self.update = False
+ 
 
 
         if args.generate:
 
             self.e_obj.check_dir()
             self.show_help = False
-            self.update = False
+ 
 
             if self.e_obj.check_files():
 
@@ -148,7 +148,7 @@ class Main:
             self.load_mode = True
             self.load_path = args.load
             self.show_help = False
-            self.update = False
+ 
 
         if self.show_help:
 
@@ -223,7 +223,6 @@ class Main:
                         self.a_obj.rsa_action(self.msg, False)
 
 
-        
 
 
 if __name__ == "__main__":
