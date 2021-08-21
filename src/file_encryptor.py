@@ -12,57 +12,10 @@ class FileEncryptor:
 
         self.e_obj = Encryptor()
         self.h_obj = Handle_json()
-
-        self.h_obj.load_json("settings.json")
+        
+        self.h_obj.load_json()
 
         self.ext = self.h_obj.get_ext()
-    
-
-    # This Function Encrypt a File with fernet key!!
-    # Args < key: Bytes > & < filepath: String > 
-    # Return Encrypted File !
-    def fernet_encrypt_file(self, filepath, key):
-
-        with open(filepath, "rb") as file:
-
-            data = file.read()
-
-            encrypted_data = self.e_obj.fernet_encrypt(data, key)
-
-            file.close()
-
-        with open(filepath + self.ext,"wb") as enc_file:
-
-            enc_file.write(encrypted_data)
-
-            enc_file.close()
-
-            remove(filepath)
-
-
-    # This Function Decrypt a Encrypted File with fernet key !
-    # Args < key: Bytes > & < filepath: String > 
-    # Return Decrypted File !
-    def fernet_decrypt_file(self, filepath, key):
-
-        filename = path.splitext(filepath)
-
-
-        with open(filepath, "rb") as enc_file:
-
-            encrypted_data = enc_file.read()
-
-            decrypted_data = self.e_obj.fernet_decrypt(encrypted_data,key)
-
-
-        with open(filename[0], "wb") as file:
-
-            file.write(decrypted_data)
-
-            file.close()
-            
-            remove(filepath)
-
 
 
     # This Function Encrypt a File with RSA public key !
