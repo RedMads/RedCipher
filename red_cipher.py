@@ -61,7 +61,6 @@ class Main:
         parser.add_argument("-d", "--decrypt", required=False, type=str, metavar="", help="-d < AES, RSA > : to decrypt")
         parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < FILE PATH > : this option to specify file path")
         parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < MESSAGE > : this option to specify message")
-        parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < BYTE SIZE > : generate RSA keys")
         parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < KEY PATH > : load key file to encrypt or decrypt")
         
 
@@ -113,37 +112,7 @@ class Main:
  
 
 
-        if args.generate:
-
-            self.e_obj.check_dir()
-            self.show_help = False
- 
-
-            if self.e_obj.check_files():
-
-                inp = input(f"you have keys files in {self.e_obj.keys_dir} did you want overwrite it? (y/n): ")
-
-                while True:
-
-                    if inp == "y":
-
-                        self.e_obj.generate_keys(args.generate)
-                        print(f"{aqua}[{red}${aqua}] {red}Keys generated successfully at {self.e_obj.keys_dir}"); break
-
-                    elif inp == "n":
-
-                        pass; break
-
-                    else:
-                        inp = input(f"you have keys in {self.e_obj.keys_dir} did you want overwrite it? {aqua}({red}y{aqua}/{red}n{aqua}):{red} ")
-
-            elif not self.e_obj.check_files():
-
-
-                self.e_obj.generate_keys(args.generate)
-                print(f"{aqua}[{red}${aqua}] {red}Keys generated successfully at {self.e_obj.keys_dir}")
-
-        elif args.load:
+        if args.load:
 
             self.load_mode = True
             self.load_path = args.load
