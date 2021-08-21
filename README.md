@@ -21,7 +21,6 @@ Advanced Encryption / Decryption tool !
 
 -l < KEY_PATH > specfiy Key
 
--g < BYTES SIZE > generate new keys
 
 ## Usage AES:
 ***
