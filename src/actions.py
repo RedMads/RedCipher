@@ -1,9 +1,11 @@
 from src.encryptor import Encryptor
 from src.file_encryptor import FileEncryptor
 from src.banner import *
+from src.aes_encryptor import AES_encryptor
 import getpass
 import os
 import shutil
+from base64 import b64encode, b64decode
 
 class Action:
 
@@ -11,6 +13,7 @@ class Action:
         
         self.e_obj = Encryptor()
         self.f_obj = FileEncryptor()
+        self.a_obj = AES_encryptor()
 
 
 
@@ -31,7 +34,7 @@ class Action:
 
             if password == retype_password:
 
-                key = self.e_obj.password_to_fernet_key(password)
+                key = self.a_obj.password_to_aes_key(password)
 
                 return key
 
@@ -44,7 +47,7 @@ class Action:
 
             password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: ")
 
-            key = self.e_obj.password_to_fernet_key(password)
+            key = self.a_obj.password_to_aes_key(password)
 
             return key
 
@@ -121,15 +124,15 @@ class Action:
 
         if encryption:
 
-            encrypted_msg = self.e_obj.fernet_encrypt(msg.encode(), self.get_password())
+            encrypted_msg = self.a_obj.encrypt(msg.encode(), self.get_password())
 
-            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {encrypted_msg.decode()}")
+            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
 
             
         elif not encryption:
             
             try:
-                decrypted_msg = self.e_obj.fernet_decrypt(msg.encode(),self.get_password(False))
+                decrypted_msg = self.a_obj.decrypt(b64decode(msg.encode()),self.get_password(False))
 
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
@@ -153,14 +156,14 @@ class Action:
 
             if  overwrite_answer == "y":
 
-                encrypted_file = self.f_obj.fernet_encrypt_file(path, self.get_password())
+                encrypted_file = self.a_obj.encrypt_file(path, self.get_password())
                 print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copy_file(path)
 
-                encrypted_file = self.f_obj.fernet_encrypt_file(c_filepath, self.get_password())
+                encrypted_file = self.a_obj.encrypt_file(c_filepath, self.get_password())
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
@@ -168,7 +171,7 @@ class Action:
         elif not encryption:
             
             try:
-                decrypted_file = self.f_obj.fernet_decrypt_file(path, self.get_password(False))
+                decrypted_file = self.a_obj.decrypt_file(path, self.get_password(False))
 
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
