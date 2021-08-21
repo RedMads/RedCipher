@@ -1,3 +1,3 @@
-git pull
+git stash && git pull
 
 echo "[$] Updated !"
