@@ -1,0 +1,7 @@
+*.pyc
+__pycache__/
+test.py
+notes.txt
+notes.md
+.DS_Store
+.vscode
