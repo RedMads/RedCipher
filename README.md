@@ -78,7 +78,7 @@ git clone https://github.com/RedMads/RedCipher.git
 
 cd RedCipher
 
-bash install.sh
+bash installers/install_linux.sh
 ```
 
 
@@ -90,6 +90,6 @@ git clone https://github.com/RedMads/RedCipher.git
 
 cd RedCipher
 
-bash termux_install.sh
+bash installers/install_termux.sh
 ```
 
