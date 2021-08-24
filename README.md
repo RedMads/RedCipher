@@ -1,5 +1,5 @@
 # What is RedCipher ?
-Simple tool help you Encrypt / Decrypt messages & files !
+Simple tool help you Encrypt / Decrypt messages & files !\
 keep your sensitive data safe and secure with 2 powerful algrothims AES, RSA
 
 
