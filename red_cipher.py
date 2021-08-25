@@ -8,9 +8,9 @@ the first one < AES > and the second < RSA > with many modes and options !
 
 special thanks to:
     
-    @yytv_ : @wzxmpl : @5iz.h 
+    @yytv_ & @wzxmpl 
 
-        and other friends !!!
+    and other friends !!!
 
 
 - RedMad :$
