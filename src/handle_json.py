@@ -30,7 +30,9 @@ class Handle_json:
 
                     "separator": "#####",
                     "extention": ".redc",
-                    "key_size": 2048
+                    "key_size": 2048,
+                    "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
+                    "use_salt": True
                 }
             }
 
@@ -47,7 +49,9 @@ class Handle_json:
 
         return self.settings["settings"]["key_size"]
 
+    def get_salt(self):
 
+        return self.settings["settings"]["salt"]
 
 
 

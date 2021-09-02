@@ -41,7 +41,30 @@ class AES_encryptor:
     # this function convert plaintext to SHA-256 hashed text ( 32 bytes )
     def password_to_aes_key(self, password):
 
-        return hashlib.sha256(password.encode()).digest()
+        if self.h_obj.settings["settings"]["use_salt"] == True:
+
+            return hashlib.sha256(self.salt_password(password).encode()).digest()
+
+        else:
+            return hashlib.sha256(password.encode()).digest()
+
+    
+    # simple function for salting passwords !
+    def salt_password(self, password):
+
+        salt = self.h_obj.get_salt()
+
+        mid_salt = len(salt) // 2
+
+        # check if length of salt is even !
+        if (len(salt) % 2) == 0:
+
+            return salt[:mid_salt] + password + salt[mid_salt:]
+
+        else:
+
+            return password + salt
+
 
 
 
