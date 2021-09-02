@@ -50,7 +50,6 @@ class Main:
         self.show_help = True
         self.help = None
         
-        self.update = True
 
     def check_args(self):
 
@@ -59,8 +58,8 @@ class Main:
         
         parser.add_argument("-e", "--encrypt", required=False, type=str, metavar="", help="-e < AES, RSA > : to encrypt")
         parser.add_argument("-d", "--decrypt", required=False, type=str, metavar="", help="-d < AES, RSA > : to decrypt")
-        parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < FILE PATH > : this option to specify file path")
-        parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < MESSAGE > : this option to specify message")
+        parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < FILE PATH > : specify file path")
+        parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < MESSAGE > : specify message")
         parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < KEY PATH > : load key file to encrypt or decrypt")
         
 
@@ -117,7 +116,6 @@ class Main:
             self.load_mode = True
             self.load_path = args.load
             self.show_help = False
- 
 
         if self.show_help:
 
