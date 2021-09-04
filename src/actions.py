@@ -136,7 +136,7 @@ class Action:
 
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
-            except Exception:
+            except ValueError:
 
                 print(f"{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!")
                 exit(1)
@@ -175,7 +175,7 @@ class Action:
 
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
-            except:
+            except ValueError:
                 print(f"\n{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!")
                 exit(1)
 

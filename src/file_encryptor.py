@@ -1,6 +1,7 @@
 from src.encryptor import Encryptor
-from os import remove, path
 from src.handle_json import Handle_json
+from src.aes_encryptor import AES_encryptor
+from os import remove, path
 
 
 
@@ -12,6 +13,7 @@ class FileEncryptor:
 
         self.e_obj = Encryptor()
         self.h_obj = Handle_json()
+        self.a_obj = AES_encryptor()
         
         self.h_obj.load_json()
 
@@ -27,18 +29,30 @@ class FileEncryptor:
 
             data = file.read()
 
-            encrypted_data = self.e_obj.rsa_encrypt(data)
+            key, encrypted_data = self.e_obj.rsa_encrypt(data)
 
             file.close()
 
+        enc_filename = self.a_obj.ED_filename(filepath, key)
 
-        with open(filepath + self.ext, "wb") as enc_file:
+        if enc_filename != False:
 
-            enc_file.write(encrypted_data.encode())
+            with open(enc_filename, "wb") as enc_file:
+
+                enc_file.write(encrypted_data.encode())
 
             enc_file.close()
 
-            remove(filepath)
+        
+        else:
+
+            with open(filepath + self.ext, "wb") as enc_file:
+
+                enc_file.write(encrypted_data.encode())
+
+            enc_file.close()
+
+        self.a_obj.shreding_data(filepath)
 
 
             
@@ -53,18 +67,29 @@ class FileEncryptor:
 
             encrypted_data = enc_file.read()
 
-            decrypted_data = self.e_obj.rsa_decrypt(encrypted_data)
+            key, decrypted_data = self.e_obj.rsa_decrypt(encrypted_data)
 
-            enc_file.close()
+        enc_file.close()
 
+        dec_filename = self.a_obj.ED_filename(filepath, key, False)
 
-        with open(filename[0], "wb") as file:
+        if dec_filename != False:
 
-            file.write(decrypted_data)
+            with open(dec_filename, "wb") as file:
+
+                file.write(decrypted_data)
 
             file.close()
 
-            remove(filepath)
+        else:
+
+            with open(filename[0], "wb") as file:
+
+                file.write(decrypted_data)
+
+            file.close()
+
+        self.a_obj.shreding_data(filepath)
 
 
     # This Function Encrypt a File with loaded RSA public key !
@@ -76,18 +101,30 @@ class FileEncryptor:
 
             data = file.read()
 
-            encrypted_data = self.e_obj.rsa_encrypt_load(data, pub_key_path)
+            key, encrypted_data = self.e_obj.rsa_encrypt_load(data, pub_key_path)
 
             file.close()
 
+        enc_filename = self.a_obj.ED_filename(filepath, key)
 
-        with open(filepath + self.ext, "wb") as enc_file:
+        if enc_filename != False:
 
-            enc_file.write(encrypted_data.encode())
+            with open(enc_filename, "wb") as enc_file:
+
+                enc_file.write(encrypted_data.encode())
 
             enc_file.close()
 
-            remove(filepath)
+        
+        else:
+
+            with open(filepath + self.ext, "wb") as enc_file:
+
+                enc_file.write(encrypted_data.encode())
+
+            enc_file.close()
+
+        self.a_obj.shreding_data(filepath)
 
 
 
@@ -102,36 +139,27 @@ class FileEncryptor:
 
             encrypted_data = enc_file.read()
 
-            decrypted_data = self.e_obj.rsa_decrypt_load(encrypted_data, priv_key_path)
+            key, decrypted_data = self.e_obj.rsa_decrypt_load(encrypted_data, priv_key_path)
 
-            enc_file.close()
+        enc_file.close()
 
+        dec_filename = self.a_obj.ED_filename(filepath, key, False)
 
-        with open(filename[0], "wb") as file:
+        if dec_filename != False:
 
-            file.write(decrypted_data)
+            with open(dec_filename, "wb") as file:
+
+                file.write(decrypted_data)
 
             file.close()
 
-            remove(filepath)
+        else:
 
-            
-# Test the code up !
-if __name__ == "__main__":
+            with open(filename[0], "wb") as file:
 
-    path = "file.txt"
+                file.write(decrypted_data)
 
-    with open(path, "w") as file:
+            file.close()
 
-        file.write("Hello this secret file !")
-
-        file.close()
-
-
-    ef_obj = FileEncryptor()
-
-    key = ef_obj.e_obj.password_to_fernet_key("password123")
-
-    ef_obj.fernet_encrypt_file(path, key)
-
+        self.a_obj.shreding_data(filepath)
 

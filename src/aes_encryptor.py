@@ -140,6 +140,8 @@ class AES_encryptor:
     # Encrypt file with AES-256 CBC mode 
     def encrypt_file(self, filename, key):
 
+        enc_filename = self.ED_filename(filename, key)
+
         with open(filename, "rb") as file:
 
             data = file.read()
@@ -147,14 +149,28 @@ class AES_encryptor:
 
         file.close()
 
-        with open(filename + self.ext, "wb") as enc_file:
+        if enc_filename != False:
 
-            encrypted_data = self.encrypt(data, key)
+            with open(enc_filename, "wb") as enc_file:
 
-            enc_file.write(encrypted_data)
+                encrypted_data = self.encrypt(data, key)
+
+                enc_file.write(encrypted_data)
 
 
-        enc_file.close()
+            enc_file.close()
+
+        else:
+
+            with open(filename + self.ext, "wb") as enc_file:
+
+                encrypted_data = self.encrypt(data, key)
+
+                enc_file.write(encrypted_data)
+
+
+            enc_file.close()
+
 
         self.shreding_data(filename)
 
@@ -162,8 +178,8 @@ class AES_encryptor:
     # Decrypt file with AES-256 CBC mode !
     def decrypt_file(self, enc_filename, key):
 
-        # split the Extention from the path to get file name !
-        filename = os.path.splitext(enc_filename)
+        dec_filename = self.ED_filename(enc_filename, key, False)
+
 
         
         with open(enc_filename, "rb") as enc_file:
@@ -172,16 +188,51 @@ class AES_encryptor:
 
         enc_file.close()
 
-        with open(filename[0], "wb") as dec_file:
+        if dec_filename != False:
 
-            decrypted_data = self.decrypt(enc_data, key)
+            with open(dec_filename, "wb") as dec_file:
 
-            dec_file.write(decrypted_data)
+                decrypted_data = self.decrypt(enc_data, key)
+
+                dec_file.write(decrypted_data)
 
 
-        dec_file.close()
+            dec_file.close()
+
+        else:
+
+            # split path to get filename !
+            filename = os.path.splitext(enc_filename)
+
+            with open(filename[0], "wb") as dec_file:
+
+                decrypted_data = self.decrypt(enc_data, key)
+
+                dec_file.write(decrypted_data)
+
+            dec_file.close()
 
         self.shreding_data(enc_filename)
+
+
+    # simple function take a path extract filename
+    # and return it encrypted / decrypted !
+    def ED_filename(self, filepath, key, encryption=True):
+
+        dirname = os.path.dirname(filepath)
+        basename = os.path.basename(filepath)
+
+        if self.h_obj.settings["settings"]["encrypt_filename"] == True:
+
+            if encryption:
+
+                return dirname + "/" + hexlify(self.encrypt(basename.encode(), key)).decode() + self.ext
+
+            elif not encryption:
+
+                return dirname + "/" + self.decrypt(unhexlify(basename.replace(self.ext, "").encode()), key).decode()
+
+        else: return False
 
 
 

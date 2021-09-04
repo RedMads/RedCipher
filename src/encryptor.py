@@ -100,7 +100,7 @@ class Encryptor:
 
         full_encrypted = b64encode(encrypted_aes_key).decode() + self.sep + b64encode(encrypted_data).decode()
 
-        return full_encrypted
+        return aes_key ,full_encrypted
 
 
 
@@ -117,7 +117,7 @@ class Encryptor:
 
         dec_data = enc_message.decode().split(self.sep)[1]
 
-        return self.a_obj.decrypt(b64decode(dec_data.encode()), aes_key)
+        return aes_key, self.a_obj.decrypt(b64decode(dec_data.encode()), aes_key)
 
 
 
@@ -134,7 +134,7 @@ class Encryptor:
 
         full_encrypted = b64encode(encrypted_aes_key).decode() + self.sep + b64encode(encrypted_data).decode()
 
-        return full_encrypted
+        return aes_key, full_encrypted
 
 
     # This Function Decrypt a Encrypted String with loaded RSA private key !
@@ -148,5 +148,5 @@ class Encryptor:
 
         dec_data = enc_message.decode().split(self.sep)[1]
 
-        return self.a_obj.decrypt(b64decode(dec_data.encode()), aes_key)
+        return aes_key, self.a_obj.decrypt(b64decode(dec_data.encode()), aes_key)
             

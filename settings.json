@@ -5,7 +5,8 @@
         "extention": ".redc",
         "key_size": 2048,
         "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
-        "use_salt": true
+        "use_salt": true,
+        "encrypt_filename": false
         
     }
 }
