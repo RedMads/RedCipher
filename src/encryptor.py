@@ -72,17 +72,31 @@ class Encryptor:
     # Args < KeySize: int / default: 4096 >
     # Notice: the keys size was taken from constructor function up! 
 
-    def generate_keys(self):
+    def generate_keys(self, cmd=False, size=2048):
 
-        private = RSA.generate(self.keys_size)
+        if not cmd:
 
-        with open(self.private_key_file, "wb") as private_file:
-                    
-            private_file.write(private.export_key())
-                    
-        with open(self.public_key_file, "wb") as public_file:
+            private = RSA.generate(self.keys_size)
 
-            public_file.write(private.publickey().export_key())
+            with open(self.private_key_file, "wb") as private_file:
+                        
+                private_file.write(private.export_key())
+                        
+            with open(self.public_key_file, "wb") as public_file:
+
+                public_file.write(private.publickey().export_key())
+
+        elif cmd:
+
+            private = RSA.generate(size)
+
+            with open(self.private_key_file, "wb") as private_file:
+                        
+                private_file.write(private.export_key())
+                        
+            with open(self.public_key_file, "wb") as public_file:
+
+                public_file.write(private.publickey().export_key())
 
 
 

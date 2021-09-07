@@ -60,6 +60,7 @@ class Main:
         parser.add_argument("-d", "--decrypt", required=False, type=str, metavar="", help="-d < AES, RSA > : to decrypt")
         parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < FILE PATH > : specify file path")
         parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < MESSAGE > : specify message")
+        parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < BYTES SIZE > : generate rsa keys")
         parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < KEY PATH > : load key file to encrypt or decrypt")
         
 
@@ -109,6 +110,33 @@ class Main:
             self.file_path = args.file
             self.show_help = False
  
+        if args.generate:
+
+            self.show_help = False
+
+            if not self.e_obj.check_files():
+
+                self.e_obj.generate_keys()
+
+            else:
+
+                while True:
+
+                    inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}):{red} ")
+
+                    if inp == "y":
+                        
+                        self.e_obj.generate_keys(True, args.generate)
+                        print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}")
+                        break
+
+                    elif inp == "n":
+
+                        exit(1)
+
+                    else: continue
+
+
 
 
         if args.load:
