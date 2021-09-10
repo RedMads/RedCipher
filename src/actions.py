@@ -96,6 +96,29 @@ class Action:
         return c_filepath
 
 
+    # simple function check file permssion !
+    def check_permission(self, filepath):
+
+        try:
+            open(filepath, "rb+").close()
+
+        except PermissionError:
+
+            print(f"{aqua}[{red}!{aqua}]{red} {filepath} Permission denied {aqua}!")
+            exit(1)
+
+
+
+    # simple function for check multi checks in one call !
+    def check_all(self, filepath):
+
+        self.check_permission(filepath)
+        self.check_dir(filepath)
+        self.check_file(filepath)
+        
+
+
+
     # This function if he want overwrite file with encryption or not
     def overwrite_action(self):
 
@@ -145,9 +168,7 @@ class Action:
     # This function handle AES file Encryption 
     def aes_file_action(self, path, encryption=True):
 
-        self.check_dir(path)
-
-        self.check_file(path)
+        self.check_all(path)
 
 
         if encryption:
@@ -206,9 +227,7 @@ class Action:
     # This function handle RSA file Encryption and Decryption
     def rsa_file_action(self, path, encryption=True):
 
-        self.check_dir(path)
-
-        self.check_file(path)
+        self.check_all(path)
 
 
         if encryption:
@@ -245,9 +264,7 @@ class Action:
     # This function handle RSA encryption and decryption by loading key !
     def rsa_action_load(self, msg, path, encryption=True):
 
-        self.check_dir(path)
-
-        self.check_file(path)
+        self.check_all(path)
 
         if encryption:
 
@@ -269,9 +286,7 @@ class Action:
     # This function handle RSA file Encryption and Decryption by loading key !
     def rsa_file_action_load(self, path, key_path, encryption=True):
 
-        self.check_dir(path)
-
-        self.check_file(path)
+        self.check_all(path)
 
         if encryption:
 
