@@ -32,7 +32,8 @@ class Handle_json:
                     "extention": ".redc",
                     "key_size": 2048,
                     "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
-                    "use_salt": True
+                    "use_salt": True,
+                    "encrypt_filename": False
                 }
             }
 
