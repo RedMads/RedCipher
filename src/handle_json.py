@@ -28,7 +28,6 @@ class Handle_json:
             self.settings = {
                 "settings": {
 
-                    "separator": "#####",
                     "extention": ".redc",
                     "key_size": 2048,
                     "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
@@ -37,10 +36,6 @@ class Handle_json:
                 }
             }
 
-    
-    def get_separator(self):
-
-        return self.settings["settings"]["separator"]
 
     def get_ext(self):
 

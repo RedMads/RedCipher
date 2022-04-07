@@ -23,7 +23,6 @@ class Encryptor:
 
         self.h_obj.load_json()
 
-        self.sep = self.h_obj.get_separator()
         self.keys_size = self.h_obj.get_keysize()
 
 
@@ -112,9 +111,9 @@ class Encryptor:
 
         encrypted_aes_key = rsa_cipher.encrypt(aes_key)
 
-        full_encrypted = b64encode(encrypted_aes_key).decode() + self.sep + b64encode(encrypted_data).decode()
+        full_encrypted = b64encode(encrypted_aes_key + encrypted_data)
 
-        return aes_key ,full_encrypted
+        return aes_key ,full_encrypted.decode()
 
 
 
@@ -127,11 +126,11 @@ class Encryptor:
 
         key = RSA.import_key(open(self.private_key_file).read()); rsa_cipher = PKCS1_OAEP.new(key)
 
-        enc_aes_key = enc_message.decode().split(self.sep)[0]; aes_key = rsa_cipher.decrypt(b64decode(enc_aes_key))
+        enc_aes_key = b64decode(enc_message)[:256]; aes_key = rsa_cipher.decrypt(enc_aes_key)
 
-        dec_data = enc_message.decode().split(self.sep)[1]
+        dec_data = b64decode(enc_message)[256:]
 
-        return aes_key, self.a_obj.decrypt(b64decode(dec_data.encode()), aes_key)
+        return aes_key, self.a_obj.decrypt(dec_data, aes_key)
 
 
 
@@ -146,9 +145,9 @@ class Encryptor:
 
         encrypted_aes_key = rsa_cipher.encrypt(aes_key)
 
-        full_encrypted = b64encode(encrypted_aes_key).decode() + self.sep + b64encode(encrypted_data).decode()
+        full_encrypted = b64encode(encrypted_aes_key + encrypted_data)
 
-        return aes_key, full_encrypted
+        return aes_key, full_encrypted.decode()
 
 
     # This Function Decrypt a Encrypted String with loaded RSA private key !
@@ -158,9 +157,9 @@ class Encryptor:
 
         key = RSA.import_key(open(priv_key_path).read()); rsa_cipher = PKCS1_OAEP.new(key)
 
-        enc_aes_key = enc_message.decode().split(self.sep)[0]; aes_key = rsa_cipher.decrypt(b64decode(enc_aes_key))
+        enc_aes_key = b64decode(enc_message)[:256]; aes_key = rsa_cipher.decrypt(enc_aes_key)
 
-        dec_data = enc_message.decode().split(self.sep)[1]
+        dec_data = b64decode(enc_message)[256:]
 
-        return aes_key, self.a_obj.decrypt(b64decode(dec_data.encode()), aes_key)
+        return aes_key, self.a_obj.decrypt(dec_data, aes_key)
             
