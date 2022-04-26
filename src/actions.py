@@ -77,14 +77,33 @@ class Action:
             exit(1)
 
 
+    # simple function to check what platform program run at
+    def checkOs(self):
+
+        if os.name == "nt": return "windows", "\\"
+
+        else: return "linux", "/"
+
+
+    def pathEdit(self, path:str):
+
+        if self.checkOs() == "linux":
+            return path.replace("\\", "/")
+
+        else:
+            return path.replace("/", "\\")
+
+
     # This function copy files
     def copy_file(self, filepath):
 
         filename = os.path.basename(filepath)
 
-        if "/" in filepath:
+        slash = self.checkOs()[1]
 
-            c_filepath = os.path.dirname(filepath) + "/C_" + filename
+        if slash in filepath:
+
+            c_filepath = os.path.dirname(filepath) + slash + "C_" + filename
 
         else:
 
