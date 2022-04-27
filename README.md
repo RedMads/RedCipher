@@ -73,7 +73,6 @@ Use -l to specfiy RSA key:
 python3 red_cipher.py -l KEY_NAME.pem
 ```
 
-
 ## Settings:
 
 ```json
@@ -126,5 +125,19 @@ git clone https://github.com/RedMads/RedCipher.git
 cd RedCipher
 
 bash installers/install_termux.sh
+```
+
+
+
+## install for  Windows
+***
+```
+# Download ZipFile, go to click Code -> Download ZIP
+
+# Extract "RedCipher-main.zip"
+
+cd RedCipher
+
+installers/install_windows.bat
 ```
 
