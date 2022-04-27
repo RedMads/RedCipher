@@ -26,9 +26,12 @@ class Encryptor:
         self.keys_size = self.h_obj.get_keysize()
 
 
-        self.keys_dir = path.dirname(__file__).replace("/src","") + "/Keys"
-        self.public_key_file = self.keys_dir + "/public.pem"
-        self.private_key_file = self.keys_dir + "/private.pem"
+        # Path convert paths to system default format
+        # path.dirname extract the dirname of a __file__
+        # str(self.key_dir) convert the return value to string
+        self.keys_dir = Path(path.dirname(__file__).replace("/src","") + "/Keys")
+        self.public_key_file = Path(str(self.keys_dir) + "/public.pem")
+        self.private_key_file = Path(str(self.keys_dir) + "/private.pem")
 
         
 
