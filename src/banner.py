@@ -1,8 +1,17 @@
 from colorama import Fore
+import os
 
-red = Fore.RED
+# check if the system is windows
+# then we will set the colors to empty string (NO COLORS)
+if os.name == "nt":
 
-aqua = Fore.CYAN
+    red = ""
+    aqua = ""
+
+else:
+
+    red = Fore.RED
+    aqua = Fore.CYAN
 
 blink = "\033[5m"
 
