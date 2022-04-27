@@ -20,9 +20,8 @@ from src.encryptor import Encryptor
 from src.file_encryptor import FileEncryptor
 from src.actions import Action
 from src.banner import *
-import sys, getpass, argparse
+import sys, getpass, argparse,platform,logging,coloredlogs
 from os import *
-
 
 
 class Main:
@@ -221,12 +220,15 @@ class Main:
 
 
 if __name__ == "__main__":
-
+    # Install ColorLogger if the system is windows
+    if platform.system().lower() == "windows":
+        logger = logging.getLogger(f"Logger")
+        coloredlogs.install(logger=logger)
     banner()
-
     m_obj = Main()
-    
     m_obj.e_obj.check_dir()
     m_obj.e_obj.check_files()
     m_obj.check_args()
     m_obj.action()
+    # Reset Terminal Color
+    print('\033[0m')
