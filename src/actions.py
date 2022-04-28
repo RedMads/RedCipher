@@ -226,13 +226,13 @@ class Action:
         if encryption:
             
             encrypted_msg = self.e_obj.rsa_encrypt(msg.encode("utf-8"))[1]
-            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {encrypted_msg}")
+            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
         
 
         elif not encryption:
 
             try:
-                decrypted_msg = self.e_obj.rsa_decrypt(msg.encode("utf-8"))[1]
+                decrypted_msg = self.e_obj.rsa_decrypt(b64decode(msg.encode("utf-8")))[1]
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
             
@@ -288,12 +288,12 @@ class Action:
         if encryption:
 
             encrypted_msg = self.e_obj.rsa_encrypt_load(msg.encode("utf-8"), path)[1]
-            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {encrypted_msg}")
+            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
 
         elif not encryption:
 
             try:
-                decrypted_msg = self.e_obj.rsa_decrypt_load(msg.encode("utf-8"), path)[1]
+                decrypted_msg = self.e_obj.rsa_decrypt_load(b64decode(msg.encode("utf-8")), path)[1]
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
             except ValueError:
