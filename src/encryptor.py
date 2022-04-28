@@ -114,9 +114,9 @@ class Encryptor:
 
         encrypted_aes_key = rsa_cipher.encrypt(aes_key)
 
-        full_encrypted = b64encode(encrypted_aes_key + encrypted_data)
+        full_encrypted = encrypted_aes_key + encrypted_data
 
-        return aes_key ,full_encrypted.decode()
+        return aes_key ,full_encrypted
 
 
 
@@ -129,9 +129,9 @@ class Encryptor:
 
         key = RSA.import_key(open(self.private_key_file).read()); rsa_cipher = PKCS1_OAEP.new(key)
 
-        enc_aes_key = b64decode(enc_message)[:256]; aes_key = rsa_cipher.decrypt(enc_aes_key)
+        enc_aes_key = enc_message[:256]; aes_key = rsa_cipher.decrypt(enc_aes_key)
 
-        dec_data = b64decode(enc_message)[256:]
+        dec_data = enc_message[256:]
 
         return aes_key, self.a_obj.decrypt(dec_data, aes_key)
 
@@ -148,9 +148,9 @@ class Encryptor:
 
         encrypted_aes_key = rsa_cipher.encrypt(aes_key)
 
-        full_encrypted = b64encode(encrypted_aes_key + encrypted_data)
+        full_encrypted = encrypted_aes_key + encrypted_data
 
-        return aes_key, full_encrypted.decode()
+        return aes_key, full_encrypted
 
 
     # This Function Decrypt a Encrypted String with loaded RSA private key !
@@ -160,9 +160,9 @@ class Encryptor:
 
         key = RSA.import_key(open(priv_key_path).read()); rsa_cipher = PKCS1_OAEP.new(key)
 
-        enc_aes_key = b64decode(enc_message)[:256]; aes_key = rsa_cipher.decrypt(enc_aes_key)
+        enc_aes_key = enc_message[:256]; aes_key = rsa_cipher.decrypt(enc_aes_key)
 
-        dec_data = b64decode(enc_message)[256:]
+        dec_data = enc_message[256:]
 
         return aes_key, self.a_obj.decrypt(dec_data, aes_key)
             
