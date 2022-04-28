@@ -39,7 +39,7 @@ class FileEncryptor:
 
             with open(enc_filename, "wb") as enc_file:
 
-                enc_file.write(encrypted_data.encode())
+                enc_file.write(encrypted_data)
 
             enc_file.close()
 
@@ -48,7 +48,7 @@ class FileEncryptor:
 
             with open(filepath + self.ext, "wb") as enc_file:
 
-                enc_file.write(encrypted_data.encode())
+                enc_file.write(encrypted_data)
 
             enc_file.close()
 
@@ -111,7 +111,7 @@ class FileEncryptor:
 
             with open(enc_filename, "wb") as enc_file:
 
-                enc_file.write(encrypted_data.encode())
+                enc_file.write(encrypted_data)
 
             enc_file.close()
 
@@ -120,7 +120,7 @@ class FileEncryptor:
 
             with open(filepath + self.ext, "wb") as enc_file:
 
-                enc_file.write(encrypted_data.encode())
+                enc_file.write(encrypted_data)
 
             enc_file.close()
 
