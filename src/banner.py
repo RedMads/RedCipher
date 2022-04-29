@@ -4,7 +4,6 @@ red = Fore.RED
 aqua = Fore.CYAN
 blink = "\033[5m"
 reset = "\033[0m"
-
 b = f"""
 {red}  ____          _  ____ _       _               
  |  _ \ ___  __| |/ ___(_)_ __ | |__   ___ _ __ 
