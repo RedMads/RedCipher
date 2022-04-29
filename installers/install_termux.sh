@@ -10,3 +10,4 @@ pkg install git python python3 python3-pip rust -y
 pip3 install pycryptodome
 pip3 install cryptography
 pip3 install argparse
+pip3 install coloredlogs==15.0.1
