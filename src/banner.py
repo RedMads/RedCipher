@@ -1,12 +1,8 @@
 from colorama import Fore
-import os
-
 
 red = Fore.RED
 aqua = Fore.CYAN
-
 blink = "\033[5m"
-
 reset = "\033[0m"
 
 b = f"""
@@ -30,5 +26,4 @@ b = f"""
 
 
 def banner():
-
     print(b)
