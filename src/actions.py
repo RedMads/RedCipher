@@ -131,9 +131,9 @@ class Action:
     # simple function for check multi checks in one call !
     def check_all(self, filepath):
 
-        self.check_permission(filepath)
         self.check_dir(filepath)
         self.check_file(filepath)
+        self.check_permission(filepath)
         
 
 
