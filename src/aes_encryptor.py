@@ -35,12 +35,15 @@ class AES_encryptor:
 
             return hexlify( urandom(self.key_length) )
 
+        # if the arg sommethig else we will retrun
+        # key as byte formated
         else: return urandom(self.key_length)
 
 
     # this function convert plaintext to SHA-256 hashed text ( 32 bytes )
     def password_to_aes_key(self, password):
 
+        # check if the user want to use salt
         if self.h_obj.settings["settings"]["use_salt"] == True:
 
             return hashlib.sha256(self.salt_password(password).encode()).digest()
@@ -52,8 +55,10 @@ class AES_encryptor:
     # simple function for salting passwords !
     def salt_password(self, password):
 
+        # get the salt from settings file
         salt = self.h_obj.get_salt()
 
+        # devide the length of the salt by 2 to get the middle
         mid_salt = len(salt) // 2
 
         # check if length of salt is even !
@@ -61,6 +66,7 @@ class AES_encryptor:
 
             return salt[:mid_salt] + password + salt[mid_salt:]
 
+        # odd length
         else:
 
             return password + salt
@@ -71,69 +77,55 @@ class AES_encryptor:
     # simple function to shred data and delete it 4Ever !
     def shreding_data(self, path, passes=3):
         
-
-        # reading file and encrypt it with random 256 bit key
-        with open(path, "rb+") as file:
-
-            data = file.read()
-
-            length = file.tell()
-
-            encrypted_data = self.random_encryption(data)
-
-            file.write(encrypted_data)
-
-        file.close()
-    
-
         # open the file and overwrite encrypted data with random data
         with open(path, "br+") as delfile:
 
+            fileSize = delfile.tell()
+
             for _ in range(passes):
 
+                # return to the begin of the file
                 delfile.seek(0)
-                delfile.write(os.urandom(length))
+                
+                # write to the file random data
+                delfile.write(os.urandom(fileSize))
 
             delfile.seek(0)
-            delfile.write(b"\0" * length)
 
+            # write zeros to the file
+            delfile.write(b"\0" * fileSize)
+
+        # finally delete the file
         os.remove(path)
         
 
 
 
-    # encrypting data with random key and iv to make sure no one can restore it
-    def random_encryption(self, data):
-
-        key = self.generate_key("bytes")
-        iv = urandom(16)
-
-        cipher = AES.new(key, AES.MODE_CBC, iv)
-
-        return cipher.encrypt(pad(data, AES.block_size))
-
-    
-
-
     # Encrypt function with AES-256 CBC mode !
     def encrypt(self, data, key):
 
+        # initialize AES cipher object
         cipher = AES.new(key, AES.MODE_CBC, self.iv)
 
+        # encrypt and pad the data with size of block (16)
         encrypted_data = cipher.encrypt(pad(data, AES.block_size))
 
+        # combine IV with encrpted data
         return self.iv + encrypted_data
 
 
     # Decrypt function with AES-256 CBC mode !
     def decrypt(self, enc_data, key):
-
+        
+        # extract frist 16 byte (IV)
         iv = enc_data[:16]
 
         cipher = AES.new(key, AES.MODE_CBC, iv)
 
+        # skipping frist 16 bye and decrypt the data
         decrypted_data = cipher.decrypt(enc_data[16:])
 
+        # remove the padding zeros and return the data
         return unpad(decrypted_data, AES.block_size)
 
 
@@ -293,8 +285,3 @@ if __name__ == '__main__':
             exit(1); break
 
         else: continue
-
-
-
-
-    

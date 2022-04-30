@@ -7,6 +7,7 @@ class Handle_json:
 
         self.settings = {}
 
+        # get the settings filepath 
         self.settings_path = os.path.dirname(__file__).replace("/src","") + "/settings.json"
 
     
@@ -33,6 +34,7 @@ class Handle_json:
                     "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
                     "use_salt": True,
                     "encrypt_filename": False
+
                 }
             }
 
@@ -55,6 +57,7 @@ if __name__ == '__main__':
 
     h_obj = Handle_json()
 
+    # test lines 
     print(f"Salt: {h_obj.get_salt()}")
     print(f"Separator: {h_obj.get_separator()}")
     print(f"Extention: {h_obj.get_ext()}")

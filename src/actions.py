@@ -21,7 +21,7 @@ class Action:
     def get_password(self, retype=True):
 
         if retype:
-
+            
             password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: ")
 
             retype_password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Retype Password{aqua}: ")
