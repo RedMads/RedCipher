@@ -50,7 +50,7 @@ class Main:
 
         if args.encrypt:
 
-            self.enc_mode = self.mode[0]
+            self.enc_mode = True
             self.algo = args.encrypt
             self.show_help = False
             
@@ -65,7 +65,7 @@ class Main:
             
         elif args.decrypt:
 
-            self.enc_mode = self.mode[1]
+            self.enc_mode = False
             self.algo = args.decrypt
             self.show_help = False
  
@@ -135,51 +135,28 @@ class Main:
     def action(self):
         
         if str(self.algo).lower() == "aes":
-            
+
+            # check if user specify file
             if self.file_mode:
 
-                if self.enc_mode == self.mode[0]:
+                self.a_obj.aes_file_action(self.file_path, self.enc_mode)
 
-                    self.a_obj.aes_file_action(self.file_path)
-
-                elif self.enc_mode == self.mode[1]:
-
-                    self.a_obj.aes_file_action(self.file_path, False)
-
+            # user don't specify file
             elif not self.file_mode:
 
-                if self.enc_mode == self.mode[0]:
-                    self.a_obj.aes_action(self.msg)
-
-                elif self.enc_mode == self.mode[1]:
-
-                    self.a_obj.aes_action(self.msg, False)
+                self.a_obj.aes_action(self.msg, self.enc_mode)
 
 
         elif str(self.algo).lower() == "rsa":
 
-            # check if user specify file
             if self.file_mode:
                 
-                # check if user want encrypt
-                if self.enc_mode == self.mode[0]:
-                    
-                    self.a_obj.rsa_file_action(self.file_path, self.load_path)
-                
-                # user want decrypt
-                else:
+                self.a_obj.rsa_file_action(self.file_path, self.load_path, self.enc_mode)
 
-                    self.a_obj.rsa_file_action(self.file_path, self.load_path, False)
-
-            # user don't specify file
+            
             else:
                 
-                if self.enc_mode == self.mode[0]:
-
-                    self.a_obj.rsa_action(self.msg, self.load_path)
-
-                else:
-                    self.a_obj.rsa_action(self.msg, self.load_path, False)
+                self.a_obj.rsa_action(self.msg, self.load_path, self.enc_mode)
 
 
 if __name__ == "__main__":
