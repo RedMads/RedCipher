@@ -221,18 +221,18 @@ class Action:
 
 
     # This function handle RSA encryption and decryption!
-    def rsa_action(self, msg, encryption=True):
+    def rsa_action(self, msg:str, keyPath:str, encryption=True):
 
         if encryption:
             
-            encrypted_msg = self.e_obj.rsa_encrypt(msg.encode("utf-8"))[1]
+            encrypted_msg = self.e_obj.rsa_encrypt(msg.encode("utf-8"), keyPath)[1]
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
         
 
         elif not encryption:
 
             try:
-                decrypted_msg = self.e_obj.rsa_decrypt(b64decode(msg.encode("utf-8")))[1]
+                decrypted_msg = self.e_obj.rsa_decrypt(b64decode(msg.encode("utf-8")), keyPath)[1]
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
             
@@ -244,7 +244,7 @@ class Action:
 
 
     # This function handle RSA file Encryption and Decryption
-    def rsa_file_action(self, path, encryption=True):
+    def rsa_file_action(self, path:str, keyPath:str, encryption=True):
 
         self.check_all(path)
 
@@ -255,82 +255,24 @@ class Action:
 
             if overwrite_answer == "y":
 
-                encrypted_file = self.f_obj.rsa_encrypt_file(path)
+                encrypted_file = self.f_obj.rsa_encrypt_file(path, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copy_file(path)
 
-                encrypted_file = self.f_obj.rsa_encrypt_file(c_filepath)
+                encrypted_file = self.f_obj.rsa_encrypt_file(c_filepath, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
         elif not encryption:
             
             try:
-                decrypted_file = self.f_obj.rsa_decrypt_file(path)
+                decrypted_file = self.f_obj.rsa_decrypt_file(path, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
             except ValueError:
-
-                print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!")
-                exit(1)
-
-
-
-
-    # This function handle RSA encryption and decryption by loading key !
-    def rsa_action_load(self, msg, path, encryption=True):
-
-        self.check_all(path)
-
-        if encryption:
-
-            encrypted_msg = self.e_obj.rsa_encrypt_load(msg.encode("utf-8"), path)[1]
-            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
-
-        elif not encryption:
-
-            try:
-                decrypted_msg = self.e_obj.rsa_decrypt_load(b64decode(msg.encode("utf-8")), path)[1]
-                print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
-
-            except ValueError:
-
-                print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!")
-                exit(1)
-
-
-    # This function handle RSA file Encryption and Decryption by loading key !
-    def rsa_file_action_load(self, path, key_path, encryption=True):
-
-        self.check_all(path)
-
-        if encryption:
-
-            overwrite_answer = self.overwrite_action()
-
-            if overwrite_answer == "y":
-
-                encrypted_file = self.f_obj.rsa_encrypt_file_load(path, key_path)
-                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
-
-
-            elif overwrite_answer == "n":
-
-                c_filepath = self.copy_file(path)
-
-                encrypted_file = self.f_obj.rsa_encrypt_file_load(c_filepath, key_path)
-                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
-
-        elif not encryption:
-            
-            try:
-                decrypted_file = self.f_obj.rsa_decrypt_file_load(path, key_path)
-                print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
-
-            except:
 
                 print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!")
                 exit(1)

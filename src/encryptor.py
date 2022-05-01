@@ -128,10 +128,15 @@ class Encryptor:
     # Args < message: String >
     # Return Encrypted Message !
 
-    def rsa_encrypt(self, message):
+    def rsa_encrypt(self, message:bytes, pubkPath=""):
 
-        # open public key file and read it
-        pubFile = open(self.public_key_file).read()
+        # check if the user specify path for key or not
+        if pubkPath != "":
+            pubFile = open(pubkPath).read()
+        
+        # if the user don't specify any path we gonna load default key path
+        else:
+            pubFile = open(self.public_key_file).read()
 
         # import the public key to RSA object
         pubKey = RSA.import_key(pubFile); 
@@ -161,10 +166,15 @@ class Encryptor:
     # Args < enc_message: String >
     # Return Decrypted Message !
 
-    def rsa_decrypt(self, enc_message):
+    def rsa_decrypt(self, enc_message:bytes, privkPath=""):
 
-        # open private key file and read it
-        privFile = open(self.private_key_file).read()
+        # check if the user specify path for key or not
+        if privkPath != "":
+            privFile = open(privkPath).read()
+        
+        # if the user don't specify any path we gonna load default key path
+        else:
+            privFile = open(self.private_key_file).read()
 
         # import private key to RSA object
         key = RSA.import_key(privFile)
@@ -184,55 +194,3 @@ class Encryptor:
         # finally return AES key and decrypted data
         return aes_key, self.a_obj.decrypt(dec_data, aes_key)
 
-
-
-    # This Function Encrypt a string with loaded RSA public key !
-    # Args < message: String > & < pub_key_path: String > 
-    # Return Encrypted Message !
-    def rsa_encrypt_load(self, message, pub_key_path):
-        
-        # we do here the same as rsa_encrypt function
-        # but with extra thing is the costum key file
-        # that user specify in command line with tag -l (stands for load)
-
-        # open and read the public key that user specify
-        pubFileL = open(pub_key_path).read()
-
-        key = RSA.import_key(pubFileL)
-        
-        rsa_cipher = PKCS1_OAEP.new(key)
-
-        aes_key = self.a_obj.generate_key("None") 
-        
-        encrypted_data = self.a_obj.encrypt(message, aes_key)
-
-        encrypted_aes_key = rsa_cipher.encrypt(aes_key)
-
-        full_encrypted = encrypted_aes_key + encrypted_data
-
-        return aes_key, full_encrypted
-
-
-    # This Function Decrypt a Encrypted String with loaded RSA private key !
-    # Args < enc_message: Bytes > & < priv_key_path: String > 
-    # Return Decrypted Message !
-    def rsa_decrypt_load(self, enc_message, priv_key_path):
-
-        # we do here the same as rsa_decrypt function
-        # but with extra thing is the costum key file
-        # that user specify in command line with tag -l (stands for load)
-
-        # open and read the private key that user specify
-        privFileL = open(priv_key_path).read();
-
-        key = RSA.import_key(privFileL)
-        
-        rsa_cipher = PKCS1_OAEP.new(key)
-
-        enc_aes_key = enc_message[:256]
-        
-        aes_key = rsa_cipher.decrypt(enc_aes_key)
-
-        dec_data = enc_message[256:]
-
-        return aes_key, self.a_obj.decrypt(dec_data, aes_key)

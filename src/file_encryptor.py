@@ -26,7 +26,7 @@ class FileEncryptor:
     # This Function Encrypt a File with RSA public key !
     # Args < filepath: String > 
     # Return Encrypted File !
-    def rsa_encrypt_file(self, filepath):
+    def rsa_encrypt_file(self, filepath, keyPath:str):
 
         # open the file that user wants encrypt
         with open(filepath, "rb") as file:
@@ -37,7 +37,7 @@ class FileEncryptor:
             # encrypt the data with rsa_encrypt function
             # take the AES key and store it into variable
             # as well encrypted data
-            key, encrypted_data = self.e_obj.rsa_encrypt(data)
+            key, encrypted_data = self.e_obj.rsa_encrypt(data, keyPath)
 
             # close the file
             file.close()
@@ -82,7 +82,7 @@ class FileEncryptor:
     # This Function Decrypt a Encrypted File with RSA private key !
     # Args < filepath: String > 
     # Return Decrypted File !   
-    def rsa_decrypt_file(self, filepath):
+    def rsa_decrypt_file(self, filepath, keyPath:str):
         
         # seprate the filename and the extesion
         filename = path.splitext(filepath)
@@ -96,7 +96,7 @@ class FileEncryptor:
             # decrypt the data with rsa_decrypt function
             # take the AES key and store it into variable
             # as well decrypted data
-            key, decrypted_data = self.e_obj.rsa_decrypt(encrypted_data)
+            key, decrypted_data = self.e_obj.rsa_decrypt(encrypted_data, keyPath)
 
         # close the encrypted file
         enc_file.close()
@@ -128,81 +128,3 @@ class FileEncryptor:
             file.close()
 
         self.a_obj.shreding_data(filepath)
-
-
-    # This Function Encrypt a File with loaded RSA public key !
-    # Args < filepath: String > & < pub_key_path: string >
-    # Return Encrypted File ! 
-    def rsa_encrypt_file_load(self, filepath, pub_key_path):
-
-        # we do here same as rsa_encrypt_file
-        # but with costum key thats user specify
-
-        with open(filepath, "rb") as file:
-
-            data = file.read()
-
-            key, encrypted_data = self.e_obj.rsa_encrypt_load(data, pub_key_path)
-
-            file.close()
-
-        enc_filename = self.a_obj.ED_filename(filepath, key)
-
-        if enc_filename != False:
-
-            with open(enc_filename, "wb") as enc_file:
-
-                enc_file.write(encrypted_data)
-
-            enc_file.close()
-
-        
-        else:
-
-            with open(filepath + self.ext, "wb") as enc_file:
-
-                enc_file.write(encrypted_data)
-
-            enc_file.close()
-
-        self.a_obj.shreding_data(filepath)
-
-
-
-    # This Function Decrypt a Encrypted File with loaded RSA private key !
-    # Args < filepath: String > & < priv_key_path: string >
-    # Return Decrypted File ! 
-    def rsa_decrypt_file_load(self, filepath, priv_key_path):
-
-        # same as function rsa_decrypt_file
-
-        filename = path.splitext(filepath)
-
-        with open(filepath, "rb") as enc_file:
-
-            encrypted_data = enc_file.read()
-
-            key, decrypted_data = self.e_obj.rsa_decrypt_load(encrypted_data, priv_key_path)
-
-        enc_file.close()
-
-        dec_filename = self.a_obj.ED_filename(filepath, key, False)
-
-        if dec_filename != False:
-
-            with open(dec_filename, "wb") as file:
-
-                file.write(decrypted_data)
-
-            file.close()
-
-        else:
-
-            with open(filename[0], "wb") as file:
-
-                file.write(decrypted_data)
-
-            file.close()
-
-        self.a_obj.shreding_data(filepath)
-
