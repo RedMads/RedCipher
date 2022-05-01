@@ -1,21 +1,3 @@
-"""
-Hello Guys im redmad :$ today i made this super powerful Script !!!
-
-Privacy is right for every human in the world, 
-red cipher help you encrypt / decrypt messages or files with two secure and strong algorithms, 
-the first one < AES > and the second < RSA > with many modes and options !
-
-
-special thanks to:
-    
-    @yytv_ & @wzxmpl 
-
-    and other friends !!!
-
-
-- RedMad :$
-
-"""
 from src.encryptor import Encryptor
 from src.file_encryptor import FileEncryptor
 from src.actions import Action
@@ -27,7 +9,7 @@ from os import *
 class Main:
 
 
-    def __init__(self, KeySize=8192):
+    def __init__(self, KeySize=2048):
 
         self.key_size = KeySize
 
@@ -57,10 +39,10 @@ class Main:
         
         parser.add_argument("-e", "--encrypt", required=False, type=str, metavar="", help="-e < AES, RSA > : to encrypt")
         parser.add_argument("-d", "--decrypt", required=False, type=str, metavar="", help="-d < AES, RSA > : to decrypt")
-        parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < FILE PATH > : specify file path")
-        parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < MESSAGE > : specify message")
-        parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < BYTES SIZE > : generate rsa keys")
-        parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < KEY PATH > : load key file to encrypt or decrypt")
+        parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < filePath > : specify file path")
+        parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < message > : specify message")
+        parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < byteSize > : generate rsa keys")
+        parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < keyFilePath > : load key file to encrypt or decrypt")
         
 
         args = parser.parse_args()
@@ -220,15 +202,18 @@ class Main:
 
 
 if __name__ == "__main__":
+
     # Install ColorLogger if the system is windows
     if platform.system().lower() == "windows":
         logger = logging.getLogger(f"Logger")
         coloredlogs.install(logger=logger)
+
     banner()
     m_obj = Main()
     m_obj.e_obj.check_dir()
     m_obj.e_obj.check_files()
     m_obj.check_args()
     m_obj.action()
+
     # Reset Terminal Color
     print('\033[0m')

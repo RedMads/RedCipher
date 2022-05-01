@@ -44,7 +44,7 @@ class AES_encryptor:
     def password_to_aes_key(self, password):
 
         # check if the user want to use salt
-        if self.h_obj.settings["settings"]["use_salt"] == True:
+        if self.h_obj.settings["settings"]["useSalt"] == True:
 
             return hashlib.sha256(self.salt_password(password).encode()).digest()
 
@@ -214,7 +214,7 @@ class AES_encryptor:
         dirname = os.path.dirname(filepath)
         basename = os.path.basename(filepath)
 
-        if self.h_obj.settings["settings"]["encrypt_filename"] == True:
+        if self.h_obj.settings["settings"]["encryptFileName"] == True:
 
             if encryption:
 

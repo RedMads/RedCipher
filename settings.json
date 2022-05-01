@@ -1,11 +1,11 @@
 {
     "settings": {
 
-        "extention": ".redc",
-        "key_size": 2048,
+        "extension": ".redc",
+        "keySize": 2048,
         "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
-        "use_salt": true,
-        "encrypt_filename": false
+        "useSalt": true,
+        "encryptFileName": false
         
     }
 }

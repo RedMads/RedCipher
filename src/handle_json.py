@@ -29,11 +29,11 @@ class Handle_json:
             self.settings = {
                 "settings": {
 
-                    "extention": ".redc",
-                    "key_size": 2048,
+                    "extension": ".redc",
+                    "keySize": 2048,
                     "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
-                    "use_salt": True,
-                    "encrypt_filename": False
+                    "useSalt": True,
+                    "encryptFileName": False
 
                 }
             }
@@ -41,11 +41,11 @@ class Handle_json:
 
     def get_ext(self):
 
-        return self.settings["settings"]["extention"]
+        return self.settings["settings"]["extension"]
 
     def get_keysize(self):
 
-        return self.settings["settings"]["key_size"]
+        return self.settings["settings"]["keySize"]
 
     def get_salt(self):
 
@@ -57,8 +57,9 @@ if __name__ == '__main__':
 
     h_obj = Handle_json()
 
+    h_obj.load_json()
+
     # test lines 
     print(f"Salt: {h_obj.get_salt()}")
-    print(f"Separator: {h_obj.get_separator()}")
-    print(f"Extention: {h_obj.get_ext()}")
-    
+    print(f"Extension: {h_obj.get_ext()}")
+    print(f"KeySize: {h_obj.get_keysize()}")
