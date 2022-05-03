@@ -61,6 +61,22 @@ class Encryptor:
             self.generate_keys()
             
 
+    # a function to check if user specify coustum key
+    def checkCostumKey(self, keyPath:str, privKey:bool=False) -> open:
+
+        # check if the user specify path for key or not
+        if keyPath != "":
+            return open(keyPath)
+        
+        # if the user don't specify any path we gonna load default key path
+        else:
+            # check if key is private key or not then we load the default key
+            if privKey: return open(self.private_key_file)
+
+            else: return open(self.public_key_file)
+
+            
+
     # This Function check the < private.pem > & < public.pem > keys!
     def check_files(self):
 
@@ -130,13 +146,7 @@ class Encryptor:
 
     def rsa_encrypt(self, message:bytes, pubkPath=""):
 
-        # check if the user specify path for key or not
-        if pubkPath != "":
-            pubFile = open(pubkPath).read()
-        
-        # if the user don't specify any path we gonna load default key path
-        else:
-            pubFile = open(self.public_key_file).read()
+        pubFile = self.checkCostumKey(pubkPath).read()
 
         # import the public key to RSA object
         pubKey = RSA.import_key(pubFile); 
@@ -168,13 +178,7 @@ class Encryptor:
 
     def rsa_decrypt(self, enc_message:bytes, privkPath=""):
 
-        # check if the user specify path for key or not
-        if privkPath != "":
-            privFile = open(privkPath).read()
-        
-        # if the user don't specify any path we gonna load default key path
-        else:
-            privFile = open(self.private_key_file).read()
+        privFile = self.checkCostumKey(privkPath, True).read()
 
         # import private key to RSA object
         key = RSA.import_key(privFile)
