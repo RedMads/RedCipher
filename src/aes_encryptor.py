@@ -4,6 +4,7 @@ from os import urandom
 from binascii import hexlify, unhexlify
 from base64 import b64encode, b64decode
 from src.handle_json import Handle_json
+from pathlib import Path
 import hashlib
 import os
 
@@ -134,6 +135,7 @@ class AES_encryptor:
 
         enc_filename = self.ED_filename(filename, key)
 
+        print(enc_filename)
         with open(filename, "rb") as file:
 
             data = file.read()
@@ -214,15 +216,19 @@ class AES_encryptor:
         dirname = os.path.dirname(filepath)
         basename = os.path.basename(filepath)
 
+        if filepath in os.listdir("."):
+            dirname = "." + dirname
+        
+
         if self.h_obj.settings["settings"]["encryptFileName"] == True:
 
             if encryption:
 
-                return dirname + "/" + hexlify(self.encrypt(basename.encode(), key)).decode() + self.ext
+                return str(Path(dirname + "/" + hexlify(self.encrypt(basename.encode(), key)).decode() + self.ext))
 
             elif not encryption:
 
-                return dirname + "/" + self.decrypt(unhexlify(basename.replace(self.ext, "").encode()), key).decode()
+                return str(Path(dirname + "/" + self.decrypt(unhexlify(basename.replace(self.ext, "").encode()), key).decode()))
 
         else: return False
 
