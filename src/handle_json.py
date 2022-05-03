@@ -51,6 +51,14 @@ class Handle_json:
 
         return self.settings["settings"]["salt"]
 
+    def getUseSalt(self):
+        
+        return self.settings["settings"]["useSalt"]
+
+    def getEncryptFileName(self):
+
+        return self.settings["settings"]["encryptFileName"]
+
 
 
 if __name__ == '__main__':
