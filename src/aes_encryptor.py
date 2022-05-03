@@ -45,7 +45,7 @@ class AES_encryptor:
     def password_to_aes_key(self, password):
 
         # check if the user want to use salt
-        if self.h_obj.settings["settings"]["useSalt"] == True:
+        if self.h_obj.getUseSalt() == True:
 
             return hashlib.sha256(self.salt_password(password).encode()).digest()
 
@@ -135,7 +135,6 @@ class AES_encryptor:
 
         enc_filename = self.ED_filename(filename, key)
 
-        print(enc_filename)
         with open(filename, "rb") as file:
 
             data = file.read()
@@ -220,7 +219,7 @@ class AES_encryptor:
             dirname = "." + dirname
         
 
-        if self.h_obj.settings["settings"]["encryptFileName"] == True:
+        if self.h_obj.getEncryptFileName() == True:
 
             if encryption:
 
