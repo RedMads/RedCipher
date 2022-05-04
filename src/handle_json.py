@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 
 class Handle_json:
 
@@ -8,8 +9,7 @@ class Handle_json:
         self.settings = {}
 
         # get the settings filepath 
-        self.settings_path = os.path.dirname(__file__).replace("/src","") + "/settings.json"
-
+        self.settings_path =  os.path.join(os.path.dirname(__file__)[:-4], "settings.json")
     
     # This function load the settings file !
     def load_json(self):

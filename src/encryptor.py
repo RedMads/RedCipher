@@ -29,9 +29,9 @@ class Encryptor:
         # Path convert paths to system default format
         # path.dirname extract the dirname of a __file__
         # str(self.key_dir) convert the return value to string
-        self.keys_dir = Path(path.dirname(__file__).replace("/src","") + "/Keys")
-        self.public_key_file = Path(str(self.keys_dir) + "/public.pem")
-        self.private_key_file = Path(str(self.keys_dir) + "/private.pem")
+        self.keys_dir = path.join(path.dirname(__file__)[:-4], "Keys")
+        self.public_key_file = path.join(self.keys_dir, "public.pem")
+        self.private_key_file = path.join(self.keys_dir, "private.pem")
 
         
 
