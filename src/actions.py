@@ -16,7 +16,7 @@ class Action:
 
 
     # This Function ask the user to input password !
-    def get_password(self, retype=True):
+    def getPassword(self, retype=True):
 
         if retype:
             
@@ -50,7 +50,7 @@ class Action:
             return key
 
     # This function check if file is exists or not
-    def check_file(self, filepath):
+    def checkFile(self, filepath):
 
         try:
             open(filepath,"rb")
@@ -63,7 +63,7 @@ class Action:
 
 
     # This function check if the path is directory or file 
-    def check_dir(self, path):
+    def checkDir(self, path):
 
         if not os.path.isdir(path):
 
@@ -83,17 +83,8 @@ class Action:
         else: return "linux", "/"
 
 
-    def pathEdit(self, path:str):
-
-        if self.checkOs() == "linux":
-            return path.replace("\\", "/")
-
-        else:
-            return path.replace("/", "\\")
-
-
     # This function copy files
-    def copy_file(self, filepath):
+    def copyFile(self, filepath):
 
         filename = os.path.basename(filepath)
 
@@ -114,7 +105,7 @@ class Action:
 
 
     # simple function check file permssion !
-    def check_permission(self, filepath):
+    def checkPermission(self, filepath):
 
         try:
             open(filepath, "rb+").close()
@@ -127,17 +118,17 @@ class Action:
 
 
     # simple function for check multi checks in one call !
-    def check_all(self, filepath):
+    def checkAll(self, filepath):
 
-        self.check_dir(filepath)
-        self.check_file(filepath)
-        self.check_permission(filepath)
+        self.checkDir(filepath)
+        self.checkFile(filepath)
+        self.checkPermission(filepath)
         
 
 
 
     # This function if he want overwrite file with encryption or not
-    def overwrite_action(self):
+    def overwriteAction(self):
 
         # Just give the user some spcae LOL !
 
@@ -160,11 +151,11 @@ class Action:
 
 
     # This function handle AES encryption or decrption
-    def aes_action(self, msg, encryption=True):
+    def aesAction(self, msg, encryption=True):
 
         if encryption:
 
-            encrypted_msg = self.a_obj.aesEncrypt(msg.encode(), self.get_password())
+            encrypted_msg = self.a_obj.aesEncrypt(msg.encode(), self.getPassword())
 
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
 
@@ -172,7 +163,7 @@ class Action:
         elif not encryption:
             
             try:
-                decrypted_msg = self.a_obj.aesDecrypt(b64decode(msg.encode()),self.get_password(False))
+                decrypted_msg = self.a_obj.aesDecrypt(b64decode(msg.encode()),self.getPassword(False))
 
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
@@ -183,25 +174,25 @@ class Action:
 
 
     # This function handle AES file Encryption 
-    def aes_file_action(self, path, encryption=True):
+    def aesFileAction(self, path, encryption=True):
 
-        self.check_all(path)
+        self.checkAll(path)
 
 
         if encryption:
 
-            overwrite_answer = self.overwrite_action()
+            overwrite_answer = self.overwriteAction()
 
             if  overwrite_answer == "y":
 
-                encrypted_file = self.a_obj.aesEncryptFile(path, self.get_password())
+                encrypted_file = self.a_obj.aesEncryptFile(path, self.getPassword())
                 print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
 
             elif overwrite_answer == "n":
 
-                c_filepath = self.copy_file(path)
+                c_filepath = self.copyFile(path)
 
-                encrypted_file = self.a_obj.aesEncryptFile(c_filepath, self.get_password())
+                encrypted_file = self.a_obj.aesEncryptFile(c_filepath, self.getPassword())
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
@@ -209,7 +200,7 @@ class Action:
         elif not encryption:
             
             try:
-                decrypted_file = self.a_obj.aesDecryptFile(path, self.get_password(False))
+                decrypted_file = self.a_obj.aesDecryptFile(path, self.getPassword(False))
 
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
@@ -219,7 +210,7 @@ class Action:
 
 
     # This function handle RSA encryption and decryption!
-    def rsa_action(self, msg:str, keyPath:str, encryption=True):
+    def rsaAction(self, msg:str, keyPath:str, encryption=True):
 
         if encryption:
             
@@ -242,14 +233,14 @@ class Action:
 
 
     # This function handle RSA file Encryption and Decryption
-    def rsa_file_action(self, path:str, keyPath:str, encryption=True):
+    def rsaFileAction(self, path:str, keyPath:str, encryption=True):
 
-        self.check_all(path)
+        self.checkAll(path)
 
 
         if encryption:
 
-            overwrite_answer = self.overwrite_action()
+            overwrite_answer = self.overwriteAction()
 
             if overwrite_answer == "y":
 
@@ -258,7 +249,7 @@ class Action:
 
             elif overwrite_answer == "n":
 
-                c_filepath = self.copy_file(path)
+                c_filepath = self.copyFile(path)
 
                 encrypted_file = self.e_obj.rsaEncryptFile(c_filepath, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")

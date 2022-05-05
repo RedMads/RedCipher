@@ -137,24 +137,24 @@ class Main:
             # check if user specify file
             if self.file_mode:
 
-                self.a_obj.aes_file_action(self.file_path, self.enc_mode)
+                self.a_obj.aesFileAction(self.file_path, self.enc_mode)
 
             # user don't specify file
             elif not self.file_mode:
 
-                self.a_obj.aes_action(self.msg, self.enc_mode)
+                self.a_obj.aesAction(self.msg, self.enc_mode)
 
 
         elif str(self.algo).lower() == "rsa":
 
             if self.file_mode:
                 
-                self.a_obj.rsa_file_action(self.file_path, self.load_path, self.enc_mode)
+                self.a_obj.rsaFileAction(self.file_path, self.load_path, self.enc_mode)
 
             
             else:
                 
-                self.a_obj.rsa_action(self.msg, self.load_path, self.enc_mode)
+                self.a_obj.rsaAction(self.msg, self.load_path, self.enc_mode)
 
 
 if __name__ == "__main__":
