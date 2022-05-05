@@ -20,12 +20,12 @@ class RsaEncryptor:
         self.a_obj = AesEncryptor()
 
         # load json file (settings.json)
-        self.h_obj.load_json()
+        self.h_obj.loadJson()
 
-        self.ext = self.h_obj.get_ext()
+        self.ext = self.h_obj.getExt()
 
         # get key-size from settings file
-        self.keys_size = self.h_obj.get_keysize()
+        self.keys_size = self.h_obj.getKeySize()
 
 
         # Path convert paths to system default format
@@ -157,10 +157,10 @@ class RsaEncryptor:
         rsa_cipher = PKCS1_OAEP.new(pubKey)
 
         # generate random AES key
-        aes_key = self.a_obj.generate_key("None")
+        aes_key = self.a_obj.generateKey("None")
         
         # encrypt the message with AES key
-        encrypted_data = self.a_obj.encrypt(message, aes_key)
+        encrypted_data = self.a_obj.aesEncrypt(message, aes_key)
 
         # encrypt AES key with RSA key
         encrypted_aes_key = rsa_cipher.encrypt(aes_key)
@@ -198,7 +198,7 @@ class RsaEncryptor:
         dec_data = enc_message[256:]
 
         # finally return AES key and decrypted data
-        return aes_key, self.a_obj.decrypt(dec_data, aes_key)
+        return aes_key, self.a_obj.aesDecrypt(dec_data, aes_key)
 
    # This Function Encrypt a File with RSA public key !
     # Args < filepath: String > 
@@ -222,7 +222,7 @@ class RsaEncryptor:
         # check if the use specify encrypt file feature or not
         # if it so we will store the encrypted name of file to variable
         # otherwise we will retrun False to this variable 
-        enc_filename = self.a_obj.ED_filename(filepath, key)
+        enc_filename = self.a_obj.encryptFileName(filepath, key)
 
         # check if the encrypted file name don't match False
         if enc_filename != False:
@@ -252,7 +252,7 @@ class RsaEncryptor:
             enc_file.close()
 
         # destroy data from the orignal file and delete it
-        self.a_obj.shreding_data(filepath)
+        self.a_obj.shredingData(filepath)
 
 
             
@@ -281,7 +281,7 @@ class RsaEncryptor:
         # check if the user specify encrypt file feature or not
         # if it so we will store the decrypted name of file to variable
         # otherwise we will retrun False to this variable 
-        dec_filename = self.a_obj.ED_filename(filepath, key, False)
+        dec_filename = self.a_obj.encryptFileName(filepath, key, False)
 
         # check if the decrypted file name don't match False
         if dec_filename != False:
@@ -304,4 +304,4 @@ class RsaEncryptor:
 
             file.close()
 
-        self.a_obj.shreding_data(filepath)
+        self.a_obj.shredingData(filepath)

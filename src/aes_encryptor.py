@@ -16,10 +16,10 @@ class AesEncryptor:
         self.iv_length = 16 # 128 bits IV length
 
         self.h_obj = HandleJson()
-        self.h_obj.load_json()
+        self.h_obj.loadJson()
 
         # get the encrypted extention from the json file !
-        self.ext = self.h_obj.get_ext()
+        self.ext = self.h_obj.getExt()
 
         self.iv = urandom(self.iv_length)
 
@@ -57,7 +57,7 @@ class AesEncryptor:
     def saltPassword(self, password):
 
         # get the salt from settings file
-        salt = self.h_obj.get_salt()
+        salt = self.h_obj.getSalt()
 
         # devide the length of the salt by 2 to get the middle
         mid_salt = len(salt) // 2

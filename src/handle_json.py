@@ -2,22 +2,22 @@ import json
 import os
 from pathlib import Path
 
-class Handle_json:
+class HandleJson:
 
     def __init__(self):
 
         self.settings = {}
 
         # get the settings filepath 
-        self.settings_path =  os.path.join(os.path.dirname(__file__)[:-4], "settings.json")
+        self.settingsPath =  os.path.join(os.path.dirname(__file__)[:-4], "settings.json")
     
     # This function load the settings file !
-    def load_json(self):
+    def loadJson(self):
 
         try:
 
             # Try to read the < settings.json > file !
-            with open(self.settings_path, "r") as json_file:
+            with open(self.settingsPath, "r") as json_file:
 
                 self.settings = json.loads(json_file.read())
 
@@ -39,15 +39,15 @@ class Handle_json:
             }
 
 
-    def get_ext(self):
+    def getExt(self):
 
         return self.settings["settings"]["extension"]
 
-    def get_keysize(self):
+    def getKeySize(self):
 
         return self.settings["settings"]["keySize"]
 
-    def get_salt(self):
+    def getSalt(self):
 
         return self.settings["settings"]["salt"]
 
@@ -63,11 +63,11 @@ class Handle_json:
 
 if __name__ == '__main__':
 
-    h_obj = Handle_json()
+    h_obj = HandleJson()
 
-    h_obj.load_json()
+    h_obj.loadJson()
 
     # test lines 
-    print(f"Salt: {h_obj.get_salt()}")
-    print(f"Extension: {h_obj.get_ext()}")
-    print(f"KeySize: {h_obj.get_keysize()}")
+    print(f"Salt: {h_obj.getSalt()}")
+    print(f"Extension: {h_obj.getExt()}")
+    print(f"KeySize: {h_obj.getKeySize()}")
