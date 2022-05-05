@@ -1,12 +1,12 @@
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-from os import urandom
 from binascii import hexlify, unhexlify
-from base64 import b64encode, b64decode
+from base64 import b64encode
 from src.handle_json import HandleJson
 from pathlib import Path
 import hashlib
 import os
+import secrets
 
 class AesEncryptor:
 
@@ -21,7 +21,7 @@ class AesEncryptor:
         # get the encrypted extention from the json file !
         self.ext = self.h_obj.getExt()
 
-        self.iv = urandom(self.iv_length)
+        self.iv = secrets.token_bytes(self.iv_length)
 
 
 
@@ -30,15 +30,15 @@ class AesEncryptor:
 
         if enc.lower() == "base64":
 
-            return b64encode( urandom(self.key_length) )
+            return b64encode(secrets.token_bytes(self.key_length))
 
         elif enc.lower() == "hex":
 
-            return hexlify( urandom(self.key_length) )
+            return hexlify(secrets.token_bytes(self.key_length))
 
         # if the arg sommethig else we will retrun
         # key as byte formated
-        else: return urandom(self.key_length)
+        else: return secrets.token_bytes(self.key_length)
 
 
     # this function convert plaintext to SHA-256 hashed text ( 32 bytes )
@@ -89,7 +89,7 @@ class AesEncryptor:
                 delfile.seek(0)
                 
                 # write to the file random data
-                delfile.write(os.urandom(fileSize))
+                delfile.write(secrets.token_bytes(fileSize))
 
             delfile.seek(0)
 
