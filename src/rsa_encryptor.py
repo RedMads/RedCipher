@@ -104,7 +104,7 @@ class RsaEncryptor:
     # Args < KeySize: int / default: 2048 >
     # Notice: the keys size was taken from constructor function up! 
 
-    def generate_keys(self, cmd=False, size=2048):
+    def generateRsaKeys(self, cmd=False, size=2048):
 
         # check if the user don't use tag -g to generate keys
         if not cmd:
@@ -146,7 +146,7 @@ class RsaEncryptor:
     # Args < message: String >
     # Return Encrypted Message !
 
-    def rsa_encrypt(self, message:bytes, pubkPath=""):
+    def rsaEncrypt(self, message:bytes, pubkPath=""):
 
         pubFile = self.checkCostumKey(pubkPath).read()
 
@@ -178,7 +178,7 @@ class RsaEncryptor:
     # Args < enc_message: String >
     # Return Decrypted Message !
 
-    def rsa_decrypt(self, enc_message:bytes, privkPath=""):
+    def rsaDecrypt(self, enc_message:bytes, privkPath=""):
 
         privFile = self.checkCostumKey(privkPath, True).read()
 
@@ -203,7 +203,7 @@ class RsaEncryptor:
    # This Function Encrypt a File with RSA public key !
     # Args < filepath: String > 
     # Return Encrypted File !
-    def rsa_encrypt_file(self, filepath, keyPath:str):
+    def rsaEncryptFile(self, filepath, keyPath:str):
 
         # open the file that user wants encrypt
         with open(filepath, "rb") as file:
@@ -214,7 +214,7 @@ class RsaEncryptor:
             # encrypt the data with rsa_encrypt function
             # take the AES key and store it into variable
             # as well encrypted data
-            key, encrypted_data = self.rsa_encrypt(data, keyPath)
+            key, encrypted_data = self.rsaEncrypt(data, keyPath)
 
             # close the file
             file.close()
@@ -259,7 +259,7 @@ class RsaEncryptor:
     # This Function Decrypt a Encrypted File with RSA private key !
     # Args < filepath: String > 
     # Return Decrypted File !   
-    def rsa_decrypt_file(self, filepath, keyPath:str):
+    def rsaDecryptFile(self, filepath, keyPath:str):
         
         # seprate the filename and the extesion
         filename = path.splitext(filepath)
@@ -273,7 +273,7 @@ class RsaEncryptor:
             # decrypt the data with rsa_decrypt function
             # take the AES key and store it into variable
             # as well decrypted data
-            key, decrypted_data = self.rsa_decrypt(encrypted_data, keyPath)
+            key, decrypted_data = self.rsaDecrypt(encrypted_data, keyPath)
 
         # close the encrypted file
         enc_file.close()

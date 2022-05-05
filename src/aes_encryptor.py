@@ -223,10 +223,10 @@ class AesEncryptor:
 
             if encryption:
 
-                return str(Path(dirname + "/" + hexlify(self.encrypt(basename.encode(), key)).decode() + self.ext))
+                return str(Path(dirname + "/" + hexlify(self.aesEncrypt(basename.encode(), key)).decode() + self.ext))
 
             elif not encryption:
 
-                return str(Path(dirname + "/" + self.decrypt(unhexlify(basename.replace(self.ext, "").encode()), key).decode()))
+                return str(Path(dirname + "/" + self.aesDecrypt(unhexlify(basename.replace(self.ext, "").encode()), key).decode()))
 
         else: return False

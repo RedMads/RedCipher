@@ -223,14 +223,14 @@ class Action:
 
         if encryption:
             
-            encrypted_msg = self.e_obj.rsa_encrypt(msg.encode("utf-8"), keyPath)[1]
+            encrypted_msg = self.e_obj.rsaEncrypt(msg.encode("utf-8"), keyPath)[1]
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
         
 
         elif not encryption:
 
             try:
-                decrypted_msg = self.e_obj.rsa_decrypt(b64decode(msg.encode("utf-8")), keyPath)[1]
+                decrypted_msg = self.e_obj.rsaDecrypt(b64decode(msg.encode("utf-8")), keyPath)[1]
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
             
@@ -253,21 +253,21 @@ class Action:
 
             if overwrite_answer == "y":
 
-                encrypted_file = self.e_obj.rsa_encrypt_file(path, keyPath)
+                encrypted_file = self.e_obj.rsaEncryptFile(path, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copy_file(path)
 
-                encrypted_file = self.e_obj.rsa_encrypt_file(c_filepath, keyPath)
+                encrypted_file = self.e_obj.rsaEncryptFile(c_filepath, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
         elif not encryption:
             
             try:
-                decrypted_file = self.e_obj.rsa_decrypt_file(path, keyPath)
+                decrypted_file = self.e_obj.rsaDecryptFile(path, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
             except ValueError:
