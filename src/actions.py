@@ -1,7 +1,6 @@
-from src.encryptor import Encryptor
-from src.file_encryptor import FileEncryptor
+from src.rsa_encryptor import RsaEncryptor
 from src.banner import *
-from src.aes_encryptor import AES_encryptor
+from src.aes_encryptor import AesEncryptor
 import getpass
 import os
 import shutil
@@ -11,9 +10,8 @@ class Action:
 
     def __init__(self):
         
-        self.e_obj = Encryptor()
-        self.f_obj = FileEncryptor()
-        self.a_obj = AES_encryptor()
+        self.e_obj = RsaEncryptor()
+        self.a_obj = AesEncryptor()
 
 
 
@@ -34,7 +32,7 @@ class Action:
 
             if password == retype_password:
 
-                key = self.a_obj.password_to_aes_key(password)
+                key = self.a_obj.password2AesKey(password)
 
                 return key
 
@@ -47,7 +45,7 @@ class Action:
 
             password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: ")
 
-            key = self.a_obj.password_to_aes_key(password)
+            key = self.a_obj.password2AesKey(password)
 
             return key
 
@@ -166,7 +164,7 @@ class Action:
 
         if encryption:
 
-            encrypted_msg = self.a_obj.encrypt(msg.encode(), self.get_password())
+            encrypted_msg = self.a_obj.aesEncrypt(msg.encode(), self.get_password())
 
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
 
@@ -174,7 +172,7 @@ class Action:
         elif not encryption:
             
             try:
-                decrypted_msg = self.a_obj.decrypt(b64decode(msg.encode()),self.get_password(False))
+                decrypted_msg = self.a_obj.aesDecrypt(b64decode(msg.encode()),self.get_password(False))
 
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
 
@@ -196,14 +194,14 @@ class Action:
 
             if  overwrite_answer == "y":
 
-                encrypted_file = self.a_obj.encrypt_file(path, self.get_password())
+                encrypted_file = self.a_obj.aesEncryptFile(path, self.get_password())
                 print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copy_file(path)
 
-                encrypted_file = self.a_obj.encrypt_file(c_filepath, self.get_password())
+                encrypted_file = self.a_obj.aesEncryptFile(c_filepath, self.get_password())
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
@@ -211,7 +209,7 @@ class Action:
         elif not encryption:
             
             try:
-                decrypted_file = self.a_obj.decrypt_file(path, self.get_password(False))
+                decrypted_file = self.a_obj.aesDecryptFile(path, self.get_password(False))
 
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
@@ -255,21 +253,21 @@ class Action:
 
             if overwrite_answer == "y":
 
-                encrypted_file = self.f_obj.rsa_encrypt_file(path, keyPath)
+                encrypted_file = self.e_obj.rsa_encrypt_file(path, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copy_file(path)
 
-                encrypted_file = self.f_obj.rsa_encrypt_file(c_filepath, keyPath)
+                encrypted_file = self.e_obj.rsa_encrypt_file(c_filepath, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
 
 
         elif not encryption:
             
             try:
-                decrypted_file = self.f_obj.rsa_decrypt_file(path, keyPath)
+                decrypted_file = self.e_obj.rsa_decrypt_file(path, keyPath)
                 print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
 
             except ValueError:

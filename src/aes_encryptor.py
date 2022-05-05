@@ -3,19 +3,19 @@ from Crypto.Util.Padding import pad, unpad
 from os import urandom
 from binascii import hexlify, unhexlify
 from base64 import b64encode, b64decode
-from src.handle_json import Handle_json
+from src.handle_json import HandleJson
 from pathlib import Path
 import hashlib
 import os
 
-class AES_encryptor:
+class AesEncryptor:
 
     def __init__(self):
 
         self.key_length = 32 # 256 bits key length
         self.iv_length = 16 # 128 bits IV length
 
-        self.h_obj = Handle_json()
+        self.h_obj = HandleJson()
         self.h_obj.load_json()
 
         # get the encrypted extention from the json file !
@@ -26,7 +26,7 @@ class AES_encryptor:
 
 
     # Simple function for generating random 256 bit key and encode it
-    def generate_key(self, enc="base64"):
+    def generateKey(self, enc="base64"):
 
         if enc.lower() == "base64":
 
@@ -42,19 +42,19 @@ class AES_encryptor:
 
 
     # this function convert plaintext to SHA-256 hashed text ( 32 bytes )
-    def password_to_aes_key(self, password):
+    def password2AesKey(self, password):
 
         # check if the user want to use salt
         if self.h_obj.getUseSalt() == True:
 
-            return hashlib.sha256(self.salt_password(password).encode()).digest()
+            return hashlib.sha256(self.saltPassword(password).encode()).digest()
 
         else:
             return hashlib.sha256(password.encode()).digest()
 
     
     # simple function for salting passwords !
-    def salt_password(self, password):
+    def saltPassword(self, password):
 
         # get the salt from settings file
         salt = self.h_obj.get_salt()
@@ -76,7 +76,7 @@ class AES_encryptor:
 
 
     # simple function to shred data and delete it 4Ever !
-    def shreding_data(self, path, passes=3):
+    def shredingData(self, path, passes=3):
         
         # open the file and overwrite encrypted data with random data
         with open(path, "br+") as delfile:
@@ -103,7 +103,7 @@ class AES_encryptor:
 
 
     # Encrypt function with AES-256 CBC mode !
-    def encrypt(self, data, key):
+    def aesEncrypt(self, data, key):
 
         # initialize AES cipher object
         cipher = AES.new(key, AES.MODE_CBC, self.iv)
@@ -116,7 +116,7 @@ class AES_encryptor:
 
 
     # Decrypt function with AES-256 CBC mode !
-    def decrypt(self, enc_data, key):
+    def aesDecrypt(self, enc_data, key):
         
         # extract frist 16 byte (IV)
         iv = enc_data[:16]
@@ -131,9 +131,9 @@ class AES_encryptor:
 
 
     # Encrypt file with AES-256 CBC mode 
-    def encrypt_file(self, filename, key):
+    def aesEncryptFile(self, filename, key):
 
-        enc_filename = self.ED_filename(filename, key)
+        enc_filename = self.encryptFileName(filename, key)
 
         with open(filename, "rb") as file:
 
@@ -146,7 +146,7 @@ class AES_encryptor:
 
             with open(enc_filename, "wb") as enc_file:
 
-                encrypted_data = self.encrypt(data, key)
+                encrypted_data = self.aesEncrypt(data, key)
 
                 enc_file.write(encrypted_data)
 
@@ -157,7 +157,7 @@ class AES_encryptor:
 
             with open(filename + self.ext, "wb") as enc_file:
 
-                encrypted_data = self.encrypt(data, key)
+                encrypted_data = self.aesEncrypt(data, key)
 
                 enc_file.write(encrypted_data)
 
@@ -165,13 +165,13 @@ class AES_encryptor:
             enc_file.close()
 
 
-        self.shreding_data(filename)
+        self.shredingData(filename)
 
 
     # Decrypt file with AES-256 CBC mode !
-    def decrypt_file(self, enc_filename, key):
+    def aesDecryptFile(self, enc_filename, key):
 
-        dec_filename = self.ED_filename(enc_filename, key, False)
+        dec_filename = self.encryptFileName(enc_filename, key, False)
 
 
         
@@ -185,7 +185,7 @@ class AES_encryptor:
 
             with open(dec_filename, "wb") as dec_file:
 
-                decrypted_data = self.decrypt(enc_data, key)
+                decrypted_data = self.aesDecrypt(enc_data, key)
 
                 dec_file.write(decrypted_data)
 
@@ -199,18 +199,18 @@ class AES_encryptor:
 
             with open(filename[0], "wb") as dec_file:
 
-                decrypted_data = self.decrypt(enc_data, key)
+                decrypted_data = self.aesDecrypt(enc_data, key)
 
                 dec_file.write(decrypted_data)
 
             dec_file.close()
 
-        self.shreding_data(enc_filename)
+        self.shredingData(enc_filename)
 
 
     # simple function take a path extract filename
     # and return it encrypted / decrypted !
-    def ED_filename(self, filepath, key, encryption=True):
+    def encryptFileName(self, filepath, key, encryption=True):
 
         dirname = os.path.dirname(filepath)
         basename = os.path.basename(filepath)
@@ -230,63 +230,3 @@ class AES_encryptor:
                 return str(Path(dirname + "/" + self.decrypt(unhexlify(basename.replace(self.ext, "").encode()), key).decode()))
 
         else: return False
-
-
-
-# This function for test the Encryption !
-def encrypt_test():
-
-    key = b"Dd64YNior22mKIn/IBGb/pOSwrmTv1+K2yVojxNh1I4="
-
-    print("Key: " + key.decode() + "\n")
-
-    a_obj = AES_encryptor( b64decode(key) )
-
-    msg = b"Hello Friend !"
-
-    enc_msg = a_obj.encrypt(msg)
-
-    print("Orignal: " + msg.decode() + "\n")
-    print("Encrypt: " + b64encode(enc_msg).decode())
-
-
-# This function for test Decryption !
-def decrypt_test():
-
-    key = b"Dd64YNior22mKIn/IBGb/pOSwrmTv1+K2yVojxNh1I4="
-
-    a_obj = AES_encryptor( b64decode(key) )
-
-    print("Key: " + key.decode() + "\n")
-    
-    enc_msg = b"MIP030NlsFwsOmbZfgwS92itmW9CVyaiQicQkwbEG3M="
-
-    dec_msg = a_obj.decrypt( b64decode(enc_msg) )
-
-    print("Encrypted: " + enc_msg.decode() + "\n")
-    print("Decrypted: " + dec_msg.decode())
-
-
-
-    
-
-
-if __name__ == '__main__':
-
-    while True:
-
-        inp = input("(E) - Encrypt\n(D) - Decrypt\n(X) - Exit\n\n")
-
-        if inp.upper() == "E":
-
-            encrypt_test(); break
-
-        elif inp.upper() == "D":
-
-            decrypt_test(); break
-
-        elif inp.upper() == "X":
-
-            exit(1); break
-
-        else: continue
