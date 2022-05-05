@@ -60,7 +60,7 @@ class RsaEncryptor:
             mkdir(self.keys_dir)
 
             # generate keys
-            self.generate_keys()
+            self.generateRsaKeys()
             
 
     # a function to check if user specify coustum key
