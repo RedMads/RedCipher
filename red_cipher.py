@@ -1,7 +1,7 @@
 from src.rsa_encryptor import RsaEncryptor
 from src.actions import Action
 from src.banner import *
-import sys, getpass, argparse,platform,logging,coloredlogs
+import argparse,platform,logging,coloredlogs
 from os import *
 
 

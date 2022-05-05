@@ -1,14 +1,8 @@
-from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
-from Crypto import Random
 from Crypto.Cipher import PKCS1_OAEP 
-from base64 import b64decode, b64encode, urlsafe_b64encode, urlsafe_b64decode
-from getpass import getuser
-from os import mkdir, listdir, chdir, getcwd, urandom, path, remove
-from pathlib import Path
+from os import mkdir, listdir, chdir, getcwd, path
 from src.handle_json import HandleJson
 from src.aes_encryptor import AesEncryptor
-import hashlib
 
 # RSA Encryptor class
 class RsaEncryptor:
