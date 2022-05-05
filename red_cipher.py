@@ -1,5 +1,4 @@
-from src.encryptor import Encryptor
-from src.file_encryptor import FileEncryptor
+from src.rsa_encryptor import RsaEncryptor
 from src.actions import Action
 from src.banner import *
 import sys, getpass, argparse,platform,logging,coloredlogs
@@ -13,8 +12,7 @@ class Main:
 
         self.key_size = KeySize
 
-        self.e_obj = Encryptor()
-        self.f_obj = FileEncryptor()
+        self.e_obj = RsaEncryptor()
         self.a_obj = Action()
 
         self.mode = ["encryption", "decryption"]
