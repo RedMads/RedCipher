@@ -2,7 +2,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from binascii import hexlify, unhexlify
 from base64 import b64encode
-from src.handle_json import HandleJson
+from .handle_json import HandleJson
 from pathlib import Path
 import hashlib
 import os

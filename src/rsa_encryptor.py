@@ -1,8 +1,8 @@
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP 
 from os import mkdir, listdir, chdir, getcwd, path
-from src.handle_json import HandleJson
-from src.aes_encryptor import AesEncryptor
+from .handle_json import HandleJson
+from .aes_encryptor import AesEncryptor
 
 # RSA Encryptor class
 class RsaEncryptor:

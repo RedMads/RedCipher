@@ -1,7 +1,7 @@
 from src import RsaEncryptor
 from src import Action
 from src import *
-import sys, getpass, argparse,platform,logging,coloredlogs
+import argparse, platform, logging, coloredlogs
 from os import *
 
 
