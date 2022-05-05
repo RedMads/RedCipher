@@ -1,6 +1,6 @@
-from src.rsa_encryptor import RsaEncryptor
-from src.banner import *
-from src.aes_encryptor import AesEncryptor
+from .rsa_encryptor import RsaEncryptor
+from .banner import *
+from .aes_encryptor import AesEncryptor
 import getpass
 import os
 import shutil
