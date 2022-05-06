@@ -145,23 +145,19 @@ class Main:
     def checkProgramPaths(self):
 
         if not os.path.exists(self.programPath):
-            print(1)
             os.mkdir(self.programPath)
 
         filesInMainPath = os.listdir(self.programPath)
         
         if "settings.json" not in filesInMainPath:
-            print(2)
             self.h_obj.writeSettings()
 
         if "Keys" not in filesInMainPath:
-            print(3)
             os.mkdir(self.e_obj.keys_dir)
             self.e_obj.generateRsaKeys(self.keySize)
 
         # check if Keys directory is empty then we will generate keys
         if "" in os.listdir(self.e_obj.keys_dir):
-            print(4)
             self.e_obj.generateRsaKeys()
 
 
