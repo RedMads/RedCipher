@@ -2,18 +2,23 @@ from src import RsaEncryptor
 from src import Action
 from src import *
 import argparse, platform, logging, coloredlogs
-from os import *
+import os
 
 
 class Main:
 
 
-    def __init__(self, KeySize=2048):
-
-        self.key_size = KeySize
+    def __init__(self):
 
         self.e_obj = RsaEncryptor()
         self.a_obj = Action()
+        self.h_obj = HandleJson()
+
+        self.h_obj.loadJson()
+
+        self.keySize = self.h_obj.getKeySize()
+
+        self.programPath = os.path.join(os.path.expanduser("~"), ".RedCipher/")
 
         self.mode = ["encryption", "decryption"]
         self.algrothims = ["rsa","aes"]
@@ -92,29 +97,7 @@ class Main:
         if args.generate:
 
             self.show_help = False
-
-            if not self.e_obj.check_files():
-
-                self.e_obj.generate_keys()
-
-            else:
-
-                while True:
-
-                    inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}):{red} ")
-
-                    if inp == "y":
-                        
-                        self.e_obj.generate_keys(True, args.generate)
-                        print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}")
-                        break
-
-                    elif inp == "n":
-
-                        exit(1)
-
-                    else: continue
-
+            self.a_obj.overwriteKeysAction(self.keySize)
 
 
 
@@ -157,6 +140,32 @@ class Main:
                 self.a_obj.rsaAction(self.msg, self.load_path, self.enc_mode)
 
 
+
+    # function check if main directory of program is exsits or no
+    def checkProgramPaths(self):
+
+        if not os.path.exists(self.programPath):
+            print(1)
+            os.mkdir(self.programPath)
+
+        filesInMainPath = os.listdir(self.programPath)
+        
+        if "settings.json" not in filesInMainPath:
+            print(2)
+            self.h_obj.writeSettings()
+
+        if "Keys" not in filesInMainPath:
+            print(3)
+            os.mkdir(self.e_obj.keys_dir)
+            self.e_obj.generateRsaKeys(self.keySize)
+
+        # check if Keys directory is empty then we will generate keys
+        if "" in os.listdir(self.e_obj.keys_dir):
+            print(4)
+            self.e_obj.generateRsaKeys()
+
+
+
 if __name__ == "__main__":
 
     # Install ColorLogger if the system is windows
@@ -166,8 +175,7 @@ if __name__ == "__main__":
 
     banner()
     m_obj = Main()
-    m_obj.e_obj.check_dir()
-    m_obj.e_obj.check_files()
+    m_obj.checkProgramPaths()
     m_obj.check_args()
     m_obj.action()
 

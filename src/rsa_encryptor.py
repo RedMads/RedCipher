@@ -25,37 +25,11 @@ class RsaEncryptor:
         # Path convert paths to system default format
         # path.dirname extract the dirname of a __file__
         # str(self.key_dir) convert the return value to string
-        self.keys_dir = path.join(path.dirname(__file__)[:-4], "Keys")
+        self.keys_dir = path.join(self.h_obj.programPath, "Keys")
         self.public_key_file = path.join(self.keys_dir, "public.pem")
         self.private_key_file = path.join(self.keys_dir, "private.pem")
 
         
-
-
-    # This Function check the main keys directory !
-    def check_dir(self):
-        
-        # trying to cd directory
-        try:
-            # get current directory
-            c =  getcwd()
-
-            # change directory to keys-dir
-            # this line check if the key-dir exsits or not
-            chdir(self.keys_dir)
-
-            # then we back to current directory
-            chdir(c)
-
-        # when we dont find the key-dir
-        except:
-            
-            # make the directory
-            mkdir(self.keys_dir)
-
-            # generate keys
-            self.generateRsaKeys()
-            
 
     # a function to check if user specify coustum key
     def checkCostumKey(self, keyPath:str, privKey:bool=False) -> open:
@@ -70,27 +44,6 @@ class RsaEncryptor:
             if privKey: return open(self.private_key_file)
 
             else: return open(self.public_key_file)
-
-            
-
-    # This Function check the < private.pem > & < public.pem > keys!
-    def check_files(self):
-
-        # list of keys file names
-        key_files  = ["public.pem", "private.pem"]
-
-        # list content of keys directory
-        files = listdir(self.keys_dir)
-
-        # check if the key files in key dir
-        if key_files[0] and key_files[1] in files:
-            
-            # yes there is keys files
-            return True
-
-        else:
-            # we don't find any key file
-            return False
 
 
 
