@@ -8,7 +8,8 @@ class HandleJson:
         self.settings = {}
 
         # get the settings filepath 
-        self.settingsPath =  os.path.join(os.path.dirname(__file__)[:-4], "settings.json")
+        self.programPath = os.path.join(os.path.expanduser("~"), ".RedCipher/")
+        self.settingsPath =  os.path.join(self.programPath, "settings.json")
     
     # This function load the settings file !
     def loadJson(self):
@@ -18,7 +19,7 @@ class HandleJson:
             # Try to read the < settings.json > file !
             with open(self.settingsPath, "r") as json_file:
 
-                self.settings = json.loads(json_file.read())
+                self.settings = json.load(json_file)
 
             json_file.close()
 
@@ -36,6 +37,17 @@ class HandleJson:
 
                 }
             }
+
+
+    
+    # function write default settings to a file
+    def writeSettings(self):
+
+        self.loadJson()
+
+        with open(self.settingsPath, "w") as settingsFile:
+            settingsFile.write(json.dumps(self.settings, indent=4))
+
 
 
     def getExt(self):
