@@ -148,6 +148,24 @@ class Action:
             else: continue
 
 
+    # useful function for warning the user if he trys
+    # to generate new keys and he have keys before
+    def overwriteKeysAction(self, keySize:int):
+
+        while True:
+
+            inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}):{red} ")
+
+            if inp == "y":
+                        
+                self.e_obj.generateRsaKeys(True, keySize)
+                print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}")
+                break
+
+            elif inp == "n": exit(1)
+
+            else: continue
+
 
 
     # This function handle AES encryption or decrption
