@@ -1,6 +1,5 @@
 # What is RedCipher ?
-Simple tool help you Encrypt / Decrypt messages & files !\
-keep your sensitive data safe and secure with 2 powerful algrothims AES, RSA
+a useful program helps you encrypt your sensitive messages or files, with powerful and secure algorthims
 
 
 # Screenshots
@@ -12,63 +11,63 @@ keep your sensitive data safe and secure with 2 powerful algrothims AES, RSA
 
 ## Flags:
 ***
--e < AES, RSA > encrypt
+```
+usage: red_cipher.py [-h] [-e] [-d] [-f] [-m] [-g] [-l]
 
--d < AES, RSA > decrypt
-
--m < message > specfiy message
-
--f < fileName > specfiy File
-
--l < keyFilePath > specfiy Key
-
--g < BYTES SIZE > bits for RSA keys generation
-
+optional arguments:
+  -h, --help        show this help message and exit
+  -e , --encrypt    -e < AES, RSA > : to encrypt
+  -d , --decrypt    -d < AES, RSA > : to decrypt
+  -f , --file       -f < filePath > : specify file path
+  -m , --message    -m < message > : specify message
+  -g , --generate   -g < byteSize > : generate rsa keys
+  -l , --load       -l < keyFilePath > : load key file to encrypt or decrypt
+```
 
 ## Usage AES:
 ***
-encrypt Text:
+encrypt message:
 ```
 python3 red_cipher.py -e aes -m "Your Message"
 ```
 
-decrypt Cipher text:
+decrypt message:
 ```
 python3 red_cipher.py -d aes -m "Encrypted Messsge"
 ```
 
-encrypt File:
+encrypt file:
 ```
 python3 red_cipher.py -e aes -f fileName
 ```
 
-decrypt encrypted File:
+decrypt file:
 ```
 python3 red_cipher.py -d aes -f encFileName.redc
 ```
 
 ## Usage RSA:
 ***
-encrypt Text:
+encrypt message:
 ```
 python3 red_cipher.py -e rsa -m "Your Message"
 ```
-decrypt Cipher text:
+decrypt message:
 ```
 python3 red_cipher.py -d rsa -m "Encrypted Message"
 ```
 
-encrypt File:
+encrypt file:
 ```
 python3 red_cipher.py -e rsa -f fileName
 ```
 
-decrypt encrypted file:
+decrypt file:
 ```
 python3 red_cipher.py -d rsa -f encFileName.redc
 ```
 
-Use -l to specfiy RSA key:
+specify costum key to encrypt or decrypt:
 ```
 python3 red_cipher.py -l keyFileName.pem
 ```
@@ -108,7 +107,7 @@ git clone https://github.com/RedMads/RedCipher.git
 
 cd RedCipher
 
-bash installers/install_linux.sh
+pip3 install -r requirements.txt
 ```
 
 
@@ -120,12 +119,13 @@ git clone https://github.com/RedMads/RedCipher.git
 
 cd RedCipher
 
-bash installers/install_termux.sh
+pip3 install -r requirements.txt 
 ```
 
 
 
 ## install for  Windows
+make sure python is installed 
 ***
 ```
 # Download ZipFile, go to click Code -> Download ZIP
@@ -137,3 +137,6 @@ cd RedCipher
 installers/install_windows.bat
 ```
 
+## special thanks to:
+- [Zaky202](https://github.com/Zaky202) - for fixing color issue on windows
+- [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports
