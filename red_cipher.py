@@ -169,11 +169,11 @@ if __name__ == "__main__":
         logger = logging.getLogger(f"Logger")
         coloredlogs.install(logger=logger)
 
-    banner()
+    outputBanner()
     m_obj = Main()
     m_obj.checkProgramPaths()
     m_obj.check_args()
     m_obj.action()
 
     # Reset Terminal Color
-    print('\033[0m')
+    print(reset)
