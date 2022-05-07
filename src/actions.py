@@ -20,14 +20,14 @@ class Action:
 
         if retype:
             
-            password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: ")
+            password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: {reset}")
 
-            retype_password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Retype Password{aqua}: ")
+            retype_password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Retype Password{aqua}: {reset}")
 
 
             if password == "": 
                 
-                print(f"{aqua}[{red}!{aqua}] {red}Please Enter vaild password")
+                print(f"{aqua}[{red}!{aqua}] {red}Please Enter vaild password{reset}")
                 exit(1)
 
             if password == retype_password:
@@ -38,12 +38,12 @@ class Action:
 
             else:
 
-                print(f"\n{aqua}[{red}!{aqua}] {red}Password Dont Match{aqua}!")
+                print(f"\n{aqua}[{red}!{aqua}] {red}Password Dont Match{aqua}!{reset}")
                 exit(1)
 
         elif not retype:
 
-            password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: ")
+            password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: {reset}")
 
             key = self.a_obj.password2AesKey(password)
 
@@ -57,7 +57,7 @@ class Action:
 
         except FileNotFoundError:
 
-            print(f"{aqua}[{red}!{aqua}] {red}File Not found {aqua}!")
+            print(f"{aqua}[{red}!{aqua}] {red}File Not found {aqua}!{reset}")
             exit(1)
 
 
@@ -71,7 +71,7 @@ class Action:
 
         elif os.path.isdir(path):
 
-            print(f"{aqua}[{red}!{aqua}] {red}This is not file is a directory {aqua}!")
+            print(f"{aqua}[{red}!{aqua}] {red}This is not file is a directory {aqua}!{reset}")
             exit(1)
 
 
@@ -112,7 +112,7 @@ class Action:
 
         except PermissionError:
 
-            print(f"{aqua}[{red}!{aqua}]{red} {filepath} Permission denied {aqua}!")
+            print(f"{aqua}[{red}!{aqua}]{red} {filepath} Permission denied {aqua}!{reset}")
             exit(1)
 
 
@@ -139,7 +139,7 @@ class Action:
 
         while True:
 
-            inp = input(f"{aqua}[{red}?{aqua}]{red} Do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}):{red} ").lower().strip()
+            inp = input(f"{aqua}[{red}?{aqua}]{red} Do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}): {red}").lower().strip()
 
             if inp in answers_y: return "y"; break
 
@@ -154,12 +154,12 @@ class Action:
 
         while True:
 
-            inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}):{red} ")
+            inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}n{aqua}): {red} {reset}")
 
             if inp == "y":
                         
                 self.e_obj.generateRsaKeys(True, keySize)
-                print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}")
+                print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}{reset}")
                 break
 
             elif inp == "n": exit(1)
@@ -175,7 +175,7 @@ class Action:
 
             encrypted_msg = self.a_obj.aesEncrypt(msg.encode(), self.getPassword())
 
-            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
+            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}{reset}")
 
             
         elif not encryption:
@@ -183,11 +183,11 @@ class Action:
             try:
                 decrypted_msg = self.a_obj.aesDecrypt(b64decode(msg.encode()),self.getPassword(False))
 
-                print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
+                print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}{reset}")
 
             except ValueError:
 
-                print(f"{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!")
+                print(f"{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!{reset}")
                 exit(1)
 
 
@@ -203,27 +203,27 @@ class Action:
 
             if  overwrite_answer == "y":
 
-                encrypted_file = self.a_obj.aesEncryptFile(path, self.getPassword())
-                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+                self.a_obj.aesEncryptFile(path, self.getPassword())
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!{reset}")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copyFile(path)
 
-                encrypted_file = self.a_obj.aesEncryptFile(c_filepath, self.getPassword())
-                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
+                self.a_obj.aesEncryptFile(c_filepath, self.getPassword())
+                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!{reset}")
 
 
 
         elif not encryption:
             
             try:
-                decrypted_file = self.a_obj.aesDecryptFile(path, self.getPassword(False))
+                self.a_obj.aesDecryptFile(path, self.getPassword(False))
 
-                print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
+                print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!{reset}")
 
             except ValueError:
-                print(f"\n{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!")
+                print(f"\n{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!{reset}")
                 exit(1)
 
 
@@ -233,19 +233,19 @@ class Action:
         if encryption:
             
             encrypted_msg = self.e_obj.rsaEncrypt(msg.encode("utf-8"), keyPath)[1]
-            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}")
+            print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}{reset}")
         
 
         elif not encryption:
 
             try:
                 decrypted_msg = self.e_obj.rsaDecrypt(b64decode(msg.encode("utf-8")), keyPath)[1]
-                print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}")
+                print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}{reset}")
 
             
             except ValueError:
 
-                print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!")
+                print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!{reset}")
                 exit(1)
             
 
@@ -262,24 +262,24 @@ class Action:
 
             if overwrite_answer == "y":
 
-                encrypted_file = self.e_obj.rsaEncryptFile(path, keyPath)
-                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!")
+                self.e_obj.rsaEncryptFile(path, keyPath)
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully {aqua}!{reset}")
 
             elif overwrite_answer == "n":
 
                 c_filepath = self.copyFile(path)
 
-                encrypted_file = self.e_obj.rsaEncryptFile(c_filepath, keyPath)
-                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!")
+                self.e_obj.rsaEncryptFile(c_filepath, keyPath)
+                print(f"{aqua}[{red}${aqua}] {red}{c_filepath} Encrypted successfully {aqua}!{reset}")
 
 
         elif not encryption:
             
             try:
-                decrypted_file = self.e_obj.rsaDecryptFile(path, keyPath)
-                print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!")
+                self.e_obj.rsaDecryptFile(path, keyPath)
+                print(f"{aqua}[{red}${aqua}] {red}{path} Decrypted successfully {aqua}!{reset}")
 
             except ValueError:
 
-                print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!")
+                print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!{reset}")
                 exit(1)
