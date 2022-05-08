@@ -166,6 +166,14 @@ class Action:
 
             else: continue
 
+    
+    # function output message to user if he try generate key less than 1024 bit
+    def rsaKeyMinAction(self, keySize:int):
+
+        if keySize < 1024:
+
+            print(f"{aqua}[{red}!{aqua}] {red}Key size is less than 1024 bits{aqua}!{reset}")
+            exit(1)
 
 
     # This function handle AES encryption or decrption

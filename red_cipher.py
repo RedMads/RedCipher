@@ -97,7 +97,8 @@ class Main:
         if args.generate:
 
             self.show_help = False
-            self.a_obj.overwriteKeysAction(self.keySize)
+            self.a_obj.rsaKeyMinAction(args.generate)
+            self.a_obj.overwriteKeysAction(args.generate)
 
 
 
