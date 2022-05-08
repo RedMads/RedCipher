@@ -30,7 +30,7 @@ class HandleJson:
                 "settings": {
 
                     "extension": ".redc",
-                    "keySize": 2048,
+                    "keySize": 3072,
                     "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
                     "useSalt": True,
                     "encryptFileName": False
