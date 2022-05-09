@@ -59,4 +59,4 @@ let's say if you have already installed the program and have settings in the pat
 ## special thanks to:
 
 - [Zaky202](https://github.com/Zaky202) - for fixing color issue on windows
-- [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports-->
+- [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports
