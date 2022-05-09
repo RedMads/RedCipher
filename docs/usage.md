@@ -1,5 +1,5 @@
 ## Flags:
-***
+
 ```
 usage: red_cipher.py [-h] [-e] [-d] [-f] [-m] [-g] [-l]
 
@@ -14,7 +14,7 @@ optional arguments:
 ```
 
 ## Usage AES:
-***
+
 encrypt message:
 ```
 python3 red_cipher.py -e aes -m "Your Message"
@@ -36,7 +36,7 @@ python3 red_cipher.py -d aes -f encFileName.redc
 ```
 
 ## Usage RSA:
-***
+
 encrypt message:
 ```
 python3 red_cipher.py -e rsa -m "Your Message"

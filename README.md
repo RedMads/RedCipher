@@ -4,13 +4,13 @@ command line utility help users encrypt messages or files with simple commands
 
 
 ## Overview:
----
+
 ![RedCipher](images/RedCipher.gif)
 
 
 
 ## Guide:
----
+
   - [Usage](docs/usage.md)
   - [Settings](#settings)
   - [Installation](docs/install.md)
@@ -18,7 +18,7 @@ command line utility help users encrypt messages or files with simple commands
 
 
 ## Settings:
----
+
 settings file are created once the program run for the frist time. 
 
 if the settings file not found the program will load the default settings in `src/handle_json.py` file and rewrite the settings in this path `{user-home}/.RedCipher/settings.json`.
@@ -57,7 +57,6 @@ let's say if you have already installed the program and have settings in the pat
 
 
 ## special thanks to:
----
 
 - [Zaky202](https://github.com/Zaky202) - for fixing color issue on windows
 - [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports-->
