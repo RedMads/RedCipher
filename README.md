@@ -1,78 +1,29 @@
 # What is RedCipher ?
-a useful program helps you encrypt your sensitive messages or files, with powerful and secure algorthims
+
+command line utility help users encrypt messages or files with simple commands
 
 
-# Screenshots
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/help.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/aes_encrypt.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/aes_decrypt.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/rsa_encrypt.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/rsa_decrypt.png)
+## Overview:
+---
+![RedCipher](images/RedCipher.gif)
 
-## Flags:
-***
-```
-usage: red_cipher.py [-h] [-e] [-d] [-f] [-m] [-g] [-l]
 
-optional arguments:
-  -h, --help        show this help message and exit
-  -e , --encrypt    -e < AES, RSA > : to encrypt
-  -d , --decrypt    -d < AES, RSA > : to decrypt
-  -f , --file       -f < filePath > : specify file path
-  -m , --message    -m < message > : specify message
-  -g , --generate   -g < byteSize > : generate rsa keys
-  -l , --load       -l < keyFilePath > : load key file to encrypt or decrypt
-```
 
-## Usage AES:
-***
-encrypt message:
-```
-python3 red_cipher.py -e aes -m "Your Message"
-```
+## Guide:
+---
+  - [Usage](docs/usage.md)
+  - [Settings](#settings)
+  - [Installation](docs/install.md)
+  - [Contributors](#special-thanks-to)
 
-decrypt message:
-```
-python3 red_cipher.py -d aes -m "Encrypted Messsge"
-```
-
-encrypt file:
-```
-python3 red_cipher.py -e aes -f fileName
-```
-
-decrypt file:
-```
-python3 red_cipher.py -d aes -f encFileName.redc
-```
-
-## Usage RSA:
-***
-encrypt message:
-```
-python3 red_cipher.py -e rsa -m "Your Message"
-```
-decrypt message:
-```
-python3 red_cipher.py -d rsa -m "Encrypted Message"
-```
-
-encrypt file:
-```
-python3 red_cipher.py -e rsa -f fileName
-```
-
-decrypt file:
-```
-python3 red_cipher.py -d rsa -f encFileName.redc
-```
-
-specify costum key to encrypt or decrypt:
-```
-python3 red_cipher.py -l keyFileName.pem
-```
 
 ## Settings:
+---
+settings file are created once the program run for the frist time. 
+
+if the settings file not found the program will load the default settings in `src/handle_json.py` file and rewrite the settings in this path `{user-home}/.RedCipher/settings.json`.
+
+let's say if you have already installed the program and have settings in the path the program will load the settings and won't rewrite it again.
 
 ```json
 
@@ -80,7 +31,7 @@ python3 red_cipher.py -l keyFileName.pem
     "settings": {
 
         "extension": ".redc",
-        "keySize": 2048,
+        "keySize": 3072,
         "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
         "useSalt": true,
         "encryptFileName": false
@@ -90,53 +41,23 @@ python3 red_cipher.py -l keyFileName.pem
 
 
 ```
-`extension` this object store the encrypted file extension
+- `extension` object store the encrypted file extension
 
-`keySize` the default size of bits for RSA keys generation
+- `keySize` default size of bits for RSA keys generation
 
-`salt` stores the salt for salting AES key and make it secure ( you can change it ! )
+- `salt` stores the salt for salting AES key and make it secure ( you can change it ! )
 
-`useSalt` stores boolean value `false` it will not use the salt `true` it will use the salt
+- `useSalt` stores boolean value to decide if the program use salt or no
+  - `false` tells the program don't use salt
+  - `true` use the salt
 
-`encryptFileName` stores boolean value if `false` it will not encrypt file names for the encrypted files if it `true` it will encrypt it
+- `encryptFileName` object store boolean value to decide if program encrypt file name or not
+  - `false` will not encrypt file name
+  - `true` it will encrypt it
 
-## install for  linux
-***
-```
-git clone https://github.com/RedMads/RedCipher.git
-
-cd RedCipher
-
-pip3 install -r requirements.txt
-```
-
-
-
-## install for  Termux
-***
-```
-git clone https://github.com/RedMads/RedCipher.git
-
-cd RedCipher
-
-pip3 install -r requirements.txt 
-```
-
-
-
-## install for  Windows
-make sure python is installed 
-***
-```
-# Download ZipFile, go to click Code -> Download ZIP
-
-# Extract "RedCipher-main.zip"
-
-cd RedCipher
-
-installers/install_windows.bat
-```
 
 ## special thanks to:
+---
+
 - [Zaky202](https://github.com/Zaky202) - for fixing color issue on windows
-- [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports
+- [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports-->
