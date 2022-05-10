@@ -1,10 +1,11 @@
 from .rsa_encryptor import RsaEncryptor
 from .banner import *
 from .aes_encryptor import AesEncryptor
+from base64 import b64encode, b64decode
 import getpass
 import os
 import shutil
-from base64 import b64encode, b64decode
+import sys
 
 class Action:
 
@@ -28,7 +29,7 @@ class Action:
             if password == "": 
                 
                 print(f"{aqua}[{red}!{aqua}] {red}Please Enter vaild password{reset}")
-                exit(1)
+                sys.exit(1)
 
             if password == retype_password:
 
@@ -39,7 +40,7 @@ class Action:
             else:
 
                 print(f"\n{aqua}[{red}!{aqua}] {red}Password Dont Match{aqua}!{reset}")
-                exit(1)
+                sys.exit(1)
 
         elif not retype:
 
@@ -58,7 +59,7 @@ class Action:
         except FileNotFoundError:
 
             print(f"{aqua}[{red}!{aqua}] {red}File Not found {aqua}!{reset}")
-            exit(1)
+            sys.exit(1)
 
 
 
@@ -72,7 +73,7 @@ class Action:
         elif os.path.isdir(path):
 
             print(f"{aqua}[{red}!{aqua}] {red}This is not file is a directory {aqua}!{reset}")
-            exit(1)
+            sys.exit(1)
 
 
     # simple function to check what platform program run at
@@ -113,7 +114,7 @@ class Action:
         except PermissionError:
 
             print(f"{aqua}[{red}!{aqua}]{red} {filepath} Permission denied {aqua}!{reset}")
-            exit(1)
+            sys.exit(1)
 
 
 
@@ -162,7 +163,7 @@ class Action:
                 print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}{reset}")
                 break
 
-            elif inp == "n": exit(1)
+            elif inp == "n": sys.exit(1)
 
             else: continue
 
@@ -173,7 +174,7 @@ class Action:
         if keySize < 1024:
 
             print(f"{aqua}[{red}!{aqua}] {red}Key size is less than 1024 bits{aqua}!{reset}")
-            exit(1)
+            sys.exit(1)
 
 
     # This function handle AES encryption or decrption
@@ -196,7 +197,7 @@ class Action:
             except ValueError:
 
                 print(f"{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!{reset}")
-                exit(1)
+                sys.exit(1)
 
 
     # This function handle AES file Encryption 
@@ -232,7 +233,7 @@ class Action:
 
             except ValueError:
                 print(f"\n{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!{reset}")
-                exit(1)
+                sys.exit(1)
 
 
     # This function handle RSA encryption and decryption!
@@ -254,7 +255,7 @@ class Action:
             except ValueError:
 
                 print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!{reset}")
-                exit(1)
+                sys.exit(1)
             
 
 
@@ -290,4 +291,4 @@ class Action:
             except ValueError:
 
                 print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!{reset}")
-                exit(1)
+                sys.exit(1)
