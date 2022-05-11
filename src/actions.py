@@ -1,3 +1,4 @@
+from cgi import print_environ
 from .rsa_encryptor import RsaEncryptor
 from .banner import *
 from .aes_encryptor import AesEncryptor
@@ -51,14 +52,14 @@ class Action:
             return key
 
     # This function check if file is exists or not
-    def checkFile(self, filepath):
+    def checkFile(self, filepath, message="File not found"):
 
         try:
             open(filepath,"rb")
 
         except FileNotFoundError:
 
-            print(f"{aqua}[{red}!{aqua}] {red}File Not found {aqua}!{reset}")
+            print(f"{aqua}[{red}!{aqua}] {red}{message}{aqua} !{reset}")
             sys.exit(1)
 
 
@@ -177,6 +178,24 @@ class Action:
             sys.exit(1)
 
 
+    # function to check if user trys to decrypt with public key
+    def checkPubKeyDec (self, keyPath:str) -> None:
+
+        if "public" in keyPath:
+            print(f"{aqua}[{red}!{aqua}] {red}Cannot decrypt with public key{aqua}!{reset}")
+            sys.exit(1)
+
+
+    # function to check if user trys to encrypt with private key
+    def checkPrivkeyEnc(self, keyPath:str) -> None:
+
+        if "private" in keyPath:
+            print(f"{aqua}[{red}!{aqua}] {red}Cannot encrypt with private key{aqua}!{reset}")
+            sys.exit(1)
+        
+
+
+
     # This function handle AES encryption or decrption
     def aesAction(self, msg, encryption=True):
 
@@ -241,11 +260,15 @@ class Action:
 
         if encryption:
             
+            self.checkPrivkeyEnc(keyPath)
+            
             encrypted_msg = self.e_obj.rsaEncrypt(msg.encode("utf-8"), keyPath)[1]
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}{reset}")
         
 
         elif not encryption:
+
+            self.checkPubKeyDec(keyPath)
 
             try:
                 decrypted_msg = self.e_obj.rsaDecrypt(b64decode(msg.encode("utf-8")), keyPath)[1]
@@ -267,6 +290,8 @@ class Action:
 
         if encryption:
 
+            self.checkPrivkeyEnc(keyPath)
+
             overwrite_answer = self.overwriteAction()
 
             if overwrite_answer == "y":
@@ -283,6 +308,8 @@ class Action:
 
 
         elif not encryption:
+
+            self.checkPubKeyDec(keyPath)
             
             try:
                 self.e_obj.rsaDecryptFile(path, keyPath)
