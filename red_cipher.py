@@ -108,6 +108,9 @@ class Main:
             self.load_path = args.load
             self.show_help = False
 
+            if self.load_path != "":
+                self.a_obj.checkFile(self.load_path, "Key file not found")
+
         if self.show_help:
 
             parser.print_help()
@@ -133,11 +136,12 @@ class Main:
 
             if self.file_mode:
                 
+                self.a_obj.checkAll(self.file_path)
                 self.a_obj.rsaFileAction(self.file_path, self.load_path, self.enc_mode)
 
             
             else:
-                
+
                 self.a_obj.rsaAction(self.msg, self.load_path, self.enc_mode)
 
 
@@ -158,7 +162,7 @@ class Main:
             self.e_obj.generateRsaKeys(self.keySize)
 
         # check if Keys directory is empty then we will generate keys
-        if "" in os.listdir(self.e_obj.keys_dir):
+        if os.listdir(self.e_obj.keys_dir) == []:
             self.e_obj.generateRsaKeys()
 
 
