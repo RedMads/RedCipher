@@ -1,4 +1,3 @@
-from cgi import print_environ
 from .rsa_encryptor import RsaEncryptor
 from .banner import *
 from .aes_encryptor import AesEncryptor

@@ -2,7 +2,6 @@ from .actions import Action
 from .banner import *
 from .handle_json import HandleJson
 from .rsa_encryptor import RsaEncryptor
-
 import argparse, platform, logging, coloredlogs
 import os
 

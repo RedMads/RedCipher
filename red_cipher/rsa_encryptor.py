@@ -1,6 +1,6 @@
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP 
-from os import mkdir, listdir, chdir, getcwd, path
+from os import path
 from .handle_json import HandleJson
 from .aes_encryptor import AesEncryptor
 
