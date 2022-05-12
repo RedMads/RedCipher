@@ -1,5 +1,3 @@
-from asyncore import read
-from numpy import require
 from setuptools import setup, find_packages
 
 __name__ = "redcipher"
