@@ -5,7 +5,7 @@ command line utility help users encrypt messages or files with simple commands
 
 ## Overview:
 
-![RedCipher](images/RedCipher.gif)
+![RedCipher](.images/RedCipher.gif)
 
 
 
