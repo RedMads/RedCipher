@@ -13,7 +13,7 @@ command line utility help users encrypt messages or files with simple commands
 
   - [Usage](docs/usage.md)
   - [Settings](#settings)
-  - [Installation](docs/install.md)
+  - [Installation](#installation)
   - [Contributors](#special-thanks-to)
 
 
