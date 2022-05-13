@@ -17,6 +17,13 @@ command line utility help users encrypt messages or files with simple commands
   - [Contributors](#special-thanks-to)
 
 
+
+## Installation
+make sure python is installed on your system
+```
+pip3 install redcipher
+```
+
 ## Settings:
 
 settings file are created once the program run for the frist time. 
@@ -45,7 +52,7 @@ let's say if you have already installed the program and have settings in the pat
 
 - `keySize` default size of bits for RSA keys generation
 
-- `salt` stores the salt for salting AES key and make it secure ( you can change it ! )
+- `salt` stores the salt for salting AES key and secure it ( you can change it ! )
 
 - `useSalt` stores boolean value to decide if the program use salt or no
   - `false` tells the program don't use salt
