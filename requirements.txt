@@ -1,0 +1,5 @@
+pycryptodome==3.14.1
+colorama==0.4.4
+cryptography==3.3.2
+argparse==1.4.0
+coloredlogs==15.0.1

@@ -1,130 +1,69 @@
 # What is RedCipher ?
-Simple tool help you Encrypt / Decrypt messages & files !\
-keep your sensitive data safe and secure with 2 powerful algrothims AES, RSA
+
+command line utility help users encrypt messages or files with simple commands
 
 
-# Screenshots
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/help.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/aes_encrypt.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/aes_decrypt.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/rsa_encrypt.png)
-![RedCipher](https://github.com/RedMads/RedCipher/blob/main/screenshots/rsa_decrypt.png)
+## Overview:
 
-## Flags:
-***
--e < AES, RSA > encrypt
-
--d < AES, RSA > decrypt
-
--m < MESSAGE > specfiy message
-
--f < FILENAME > specfiy File
-
--l < KEY_PATH > specfiy Key
-
--g < BYTES SIZE > bits for RSA keys generation
+![RedCipher](.images/RedCipher.gif)
 
 
-## Usage AES:
-***
-encrypt Text:
-```
-python3 red_cipher.py -e aes -m "Your Message"
-```
 
-decrypt Cipher text:
-```
-python3 red_cipher.py -d aes -m "Encrypted Messsge"
-```
+## Guide:
 
-encrypt File:
-```
-python3 red_cipher.py -e aes -f FILENAME
-```
+  - [Usage](docs/usage.md)
+  - [Settings](#settings)
+  - [Installation](#installation)
+  - [Contributors](#special-thanks-to)
 
-decrypt encrypted File:
-```
-python3 red_cipher.py -d aes -f ENC_FILENAME.redc
-```
 
-## Usage RSA:
-***
-encrypt Text:
-```
-python3 red_cipher.py -e rsa -m "Your Message"
-```
-decrypt Cipher text:
-```
-python3 red_cipher.py -d rsa -m "Encrypted Message"
-```
 
-encrypt File:
+## Installation
+make sure python is installed on your system
 ```
-python3 red_cipher.py -e rsa -f FILENAME
+pip3 install redcipher
 ```
-
-decrypt encrypted file:
-```
-python3 red_cipher.py -d rsa -f ENC_FILENAME.redc
-```
-
-Use -l to specfiy RSA key:
-```
-python3 red_cipher.py -l KEY_NAME.pem
-```
-
 
 ## Settings:
+
+settings file are created once the program run for the frist time. 
+
+if the settings file not found the program will load the default settings in `src/handle_json.py` file and rewrite the settings in this path `{user-home}/.RedCipher/settings.json`.
+
+let's say if you have already installed the program and have settings in the path the program will load the settings and won't rewrite it again.
 
 ```json
 
 {
     "settings": {
 
-        "separator": "#####",
-        "extention": ".redc",
-        "key_size": 2048,
+        "extension": ".redc",
+        "keySize": 3072,
         "salt": "s%piyAc7MhDN*qAS)}YrrXb.A9_&t!",
-        "use_salt": true,
-        "encrypt_filename": false
+        "useSalt": true,
+        "encryptFileName": false
         
     }
 }
 
 
 ```
+- `extension` object store the encrypted file extension
 
-`separator` stores the value for split aes key and encrypted data in RSA encryption function
+- `keySize` default size of bits for RSA keys generation
 
-`extention` this object store the encrypted file extention
+- `salt` stores the salt for salting AES key and secure it ( you can change it ! )
 
-`key_size` the default size of bits for RSA keys generation
+- `useSalt` stores boolean value to decide if the program use salt or no
+  - `false` tells the program don't use salt
+  - `true` use the salt
 
-`salt` stores the salt for salting AES key and make it secure ( you can change it ! )
-
-`use_salt` stores boolean value `false` it will not use the salt `true` it will use the salt
-
-`encrypt_filename` stores boolean value if `false` it will not encrypt file names for the encrypted files if it `true` it will encrypt it
-
-## install for  linux
-***
-```
-git clone https://github.com/RedMads/RedCipher.git
-
-cd RedCipher
-
-bash installers/install_linux.sh
-```
+- `encryptFileName` object store boolean value to decide if program encrypt file name or not
+  - `false` will not encrypt file name
+  - `true` it will encrypt it
 
 
+## special thanks to:
 
-## install for  Termux
-***
-```
-git clone https://github.com/RedMads/RedCipher.git
-
-cd RedCipher
-
-bash installers/install_termux.sh
-```
-
+- [Zaky202](https://github.com/Zaky202) - for fixing color issue on windows
+- [greedalbadi](https://github.com/greedalbadi) - resort classes and file imports
