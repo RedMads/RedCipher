@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 __name__ = "redcipher"
-__version__ = "v1.0.5"
+__version__ = "v1.5"
 __author__ = "RedMads"
 __author_email__ = "redmads@protonmail.com"
 __date__ = "2022-5-12"
@@ -19,6 +19,7 @@ with open("requirements.txt", "r") as reqFile:
 
 readme.close()
 reqFile.close()
+
 
 
 setup(
@@ -48,7 +49,8 @@ setup(
 
     packages=find_packages(),
 
-    install_requires=requirements,
+    install_requires=['pycryptodome==3.14.1',
+     'colorama==0.4.4', 'cryptography==3.3.2', 'argparse==1.4.0', 'coloredlogs==15.0.1'],
 
     entry_points={
         'console_scripts': [
