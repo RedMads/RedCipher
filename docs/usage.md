@@ -1,7 +1,7 @@
 ## Flags:
 
 ```
-usage: red_cipher.py [-h] [-e] [-d] [-f] [-m] [-g] [-l]
+usage: redc [-h] [-e] [-d] [-f] [-m] [-g] [-l]
 
 optional arguments:
   -h, --help        show this help message and exit
@@ -17,46 +17,46 @@ optional arguments:
 
 encrypt message:
 ```
-python3 red_cipher.py -e aes -m "Your Message"
+redc -e aes -m "Your Message"
 ```
 
 decrypt message:
 ```
-python3 red_cipher.py -d aes -m "Encrypted Messsge"
+redc -d aes -m "Encrypted Messsge"
 ```
 
 encrypt file:
 ```
-python3 red_cipher.py -e aes -f fileName
+redc -e aes -f fileName
 ```
 
 decrypt file:
 ```
-python3 red_cipher.py -d aes -f encFileName.redc
+redc -d aes -f encFileName.redc
 ```
 
 ## Usage RSA:
 
 encrypt message:
 ```
-python3 red_cipher.py -e rsa -m "Your Message"
+redc -e rsa -m "Your Message"
 ```
 decrypt message:
 ```
-python3 red_cipher.py -d rsa -m "Encrypted Message"
+redc -d rsa -m "Encrypted Message"
 ```
 
 encrypt file:
 ```
-python3 red_cipher.py -e rsa -f fileName
+redc -e rsa -f fileName
 ```
 
 decrypt file:
 ```
-python3 red_cipher.py -d rsa -f encFileName.redc
+redc -d rsa -f encFileName.redc
 ```
 
 specify costum key to encrypt or decrypt:
 ```
-python3 red_cipher.py -l keyFileName.pem
+redc -l keyFileName.pem
 ```
