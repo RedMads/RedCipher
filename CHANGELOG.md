@@ -23,19 +23,22 @@
 <br/>
 
 # RedCipher v1.0.4 (2021-Sep-10)
-## Features:
-- Encrypt file name
-- Command `-g` back !
+## Features
+- Encrypt File name option
+- Command `-g` Back !
 - Salting password for more security
 
-## Fixed:
+## Fixed
 - File permission error
 
-## Added:
-we add some objects `settings.json` file
-- `salt` object store the salt (you can change it) !
+## Added
+we add some objects to `settings.json` file
+
+- `salt` object store the salt ( you can change the salt )
 - `use_salt` object is boolean `false` will not use salt `true` it will use salt
-- `encrypt_filename` is boolean `false` will not encrypt file name `true `will encrypt file name
+- `encrypt_filename` is boolean `false` will not encrypt file name `true` will encrypt file  name
+
+
 
 <br/>
 <br/>
