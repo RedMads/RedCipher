@@ -1,22 +1,22 @@
 # RedCipher v1.0.5 (2022-May-13)
-## Removed:
-- seprator between AES key and message in RSA encryption
-- random encryption in shreding data function
-- RSA load functions
-- unneeded functions
+## Features
+- windows support
+- commented code
+- less lines of code
+- keys and settings files are generated inside folder `.RedCipher/` in user home directory
+- the project become library now and hosted on [pypi](https://pypi.org/project/redcipher/)
 
-## Fixed:
+## Fixed
 - reverse RSA key for encryption and decryption
     - encrypt with private key issue
     - decrypt with public key issue
 - order of function calls in check_all() function
 
-## Features:
-- windows support
-- commnented code
-- less lines of code
-- keys and settings files are generated inside folder `.RedCipher/` in user home directory
-- the project become library now hosted on [pypi](https://pypi.org/project/redcipher/)
+## Removed
+- seprator between AES key and message in RSA encryption
+- random encryption in shreding data function
+- RSA load functions
+- unneeded functions
 
 <br/>
 <br/>
