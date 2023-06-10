@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 
+
 __name__ = "redcipher"
 __version__ = "v1.5"
 __author__ = "RedMads"
@@ -11,15 +12,10 @@ with open("README.md", "r", encoding="utf-8") as readme:
     long_description = readme.read()
 
 with open("requirements.txt", "r") as reqFile:
-
     requirements = []
 
     for line in reqFile.readlines():
         requirements.append(line[:-1])
-
-readme.close()
-reqFile.close()
-
 
 
 setup(
@@ -56,5 +52,5 @@ setup(
         'console_scripts': [
                 "redc=red_cipher.__main__:main",
         ]
-	}
+    }
 )

@@ -17,7 +17,7 @@ class Main:
 
         self.h_obj.loadJson()
 
-        self.keySize = self.h_obj.getKeySize()
+        self.keySize = self.h_obj.getVal("keySize")
 
         self.programPath = os.path.join(os.path.expanduser("~"), ".RedCipher/")
 
@@ -51,60 +51,41 @@ class Main:
 
         args = parser.parse_args()
 
-
         if args.encrypt:
-
             self.enc_mode = True
             self.algo = args.encrypt
             self.show_help = False
             
-
             if str(self.algo).lower() in self.algrothims:
-                
                 pass
-
             else:
                 parser.print_help()
 
-            
         elif args.decrypt:
-
             self.enc_mode = False
             self.algo = args.decrypt
             self.show_help = False
  
-
             if str(self.algo).lower() in self.algrothims:
-
                 pass
-
             else:
-
                 parser.print_help()
 
-
         if args.message:
-
             self.msg = args.message
             self.show_help = False
- 
 
         elif args.file:
-
             self.file_mode = True
             self.file_path = args.file
             self.show_help = False
  
         if args.generate:
-
             self.show_help = False
             self.a_obj.rsaKeyMinAction(args.generate)
             self.a_obj.overwriteKeysAction(args.generate)
 
-
-
         if args.load:
-
             self.load_mode = True
             self.load_path = args.load
             self.show_help = False
@@ -113,38 +94,26 @@ class Main:
                 self.a_obj.checkFile(self.load_path, "Key file not found")
 
         if self.show_help:
-
             parser.print_help()
 
 
-
     def action(self):
-        
         if str(self.algo).lower() == "aes":
-
             # check if user specify file
             if self.file_mode:
-
                 self.a_obj.aesFileAction(self.file_path, self.enc_mode)
 
             # user don't specify file
             elif not self.file_mode:
-
                 self.a_obj.aesAction(self.msg, self.enc_mode)
 
-
         elif str(self.algo).lower() == "rsa":
-
             if self.file_mode:
-                
                 self.a_obj.checkAll(self.file_path)
                 self.a_obj.rsaFileAction(self.file_path, self.load_path, self.enc_mode)
-
             
             else:
-
                 self.a_obj.rsaAction(self.msg, self.load_path, self.enc_mode)
-
 
 
     # function check if main directory of program is exsits or no
@@ -168,7 +137,6 @@ class Main:
 
 
 def main():
-
     # Install ColorLogger if the system is windows
     if platform.system().lower() == "windows":
         logger = logging.getLogger(f"Logger")
@@ -184,5 +152,4 @@ def main():
     print(reset)
 
 if __name__ == "__main__":
-
     main()
