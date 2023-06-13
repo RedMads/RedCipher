@@ -10,6 +10,13 @@ reset = Fore.RESET
 sepChars = "=-*~+._"
 version = f"{aqua}v{red}1{aqua}.{red}0{aqua}.{red}5"
 
+
+def pickRandSepChar():
+        return choice(sepChars)
+
+def outputBanner():
+        print(banner)
+
 banner = f"""
    {red} ____          _  ____ _       _               
    |  _ \ ___  __| |/ ___(_)_ __ | |__   ___ _ __ 
@@ -23,13 +30,6 @@ banner = f"""
    {" " * 5}{aqua}{pickRandSepChar() * 35}{red}
 
 """             
-
-
-def pickRandSepChar():
-        return choice(sepChars)
-
-def outputBanner():
-        print(banner)
 
 
 if __name__ == "__main__":

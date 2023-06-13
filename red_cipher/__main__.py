@@ -22,7 +22,7 @@ class Main:
         self.programPath = os.path.join(os.path.expanduser("~"), ".RedCipher/")
 
         self.mode = ["encryption", "decryption"]
-        self.algrothims = ["rsa","aes"]
+        self.algrothims = ["rsa", "aes"]
 
         self.enc_mode = None
         self.msg = ""
@@ -37,13 +37,11 @@ class Main:
         
 
     def check_args(self):
-
         parser = argparse.ArgumentParser()
-        
         
         parser.add_argument("-e", "--encrypt", required=False, type=str, metavar="", help="-e < AES, RSA > : to encrypt")
         parser.add_argument("-d", "--decrypt", required=False, type=str, metavar="", help="-d < AES, RSA > : to decrypt")
-        parser.add_argument("-f","--file", required=False, type= str, metavar="", help="-f < filePath > : specify file path")
+        parser.add_argument("-f", "--file", required=False, type=str, metavar="", help="-f < filePath > : specify file path")
         parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < message > : specify message")
         parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < byteSize > : generate rsa keys")
         parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < keyFilePath > : load key file to encrypt or decrypt")
@@ -104,7 +102,7 @@ class Main:
                 self.a_obj.aesFileAction(self.file_path, self.enc_mode)
 
             # user don't specify file
-            elif not self.file_mode:
+            else:
                 self.a_obj.aesAction(self.msg, self.enc_mode)
 
         elif str(self.algo).lower() == "rsa":
@@ -118,12 +116,11 @@ class Main:
 
     # function check if main directory of program is exsits or no
     def checkProgramPaths(self):
-
         if not os.path.exists(self.programPath):
             os.mkdir(self.programPath)
 
         filesInMainPath = os.listdir(self.programPath)
-        
+
         if "settings.json" not in filesInMainPath:
             self.h_obj.writeSettings()
 

@@ -7,12 +7,15 @@ import os
 import shutil
 import sys
 
-class Action:
 
+class Action:
     def __init__(self):        
         self.e_obj = RsaEncryptor()
         self.a_obj = AesEncryptor()
 
+
+    def exitProg(code):
+        sys.exit(code)
 
     # This Function ask the user to input password !
     def getPassword(self, retype=True):
@@ -22,46 +25,44 @@ class Action:
 
             if password == "": 
                 print(f"{aqua}[{red}!{aqua}] {red}Please Enter vaild password{reset}")
-                sys.exit(1)
+                exitProg(1)
 
             if password == retype_password:
                 key = self.a_obj.password2AesKey(password)
                 return key
             else:
                 print(f"\n{aqua}[{red}!{aqua}] {red}Password Doesnt Match{aqua}!{reset}")
-                sys.exit(1)
+                exitProg(1)
 
-        elif not retype:
+        else:
             password = getpass.getpass(f"{aqua}[{red}${aqua}] {red}Enter Password{aqua}: {reset}")
             key = self.a_obj.password2AesKey(password)
             return key
 
+        
     # This function check if file is exists or not
     def checkFile(self, filepath, message="File not found"):
         try:
-            open(filepath,"rb")
+            open(filepath, "rb").close()
 
         except FileNotFoundError:
             print(f"{aqua}[{red}!{aqua}] {red}{message}{aqua} !{reset}")
-            sys.exit(1)
+            exitProg(1)
 
 
     # This function check if the path is directory or file 
     def checkDir(self, path):
-        if not os.path.isdir(path):
-            pass
-
-        elif os.path.isdir(path):
+        if os.path.isdir(path):
             print(f"{aqua}[{red}!{aqua}] {red}This is not file is a directory {aqua}!{reset}")
-            sys.exit(1)
+            exitProg(1)
 
 
     # simple function to check what platform program run at
     def checkOS(self):
         if os.name == "nt":
-            return "windows", "\\"
+            return ("windows", "\\")
         else:
-            return "linux", "/"
+            return ("linux", "/")
 
 
     # This function copy files
@@ -85,7 +86,7 @@ class Action:
 
         except PermissionError:
             print(f"{aqua}[{red}!{aqua}]{red} {filepath} Permission denied {aqua}!{reset}")
-            sys.exit(1)
+            exitProg(1)
 
 
     # simple function for check multi checks in one call !
@@ -121,48 +122,49 @@ class Action:
             inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}N{aqua}): {red} {reset}")
 
             if inp not in answers_y:
-                sys.exit(1)
+                exitProg(1)
 
             self.e_obj.generateRsaKeys(True, keySize)
             print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}{reset}")
-            break
+
+            return
 
 
     # function output message to user if he try generate key less than 1024 bit
     def rsaKeyMinAction(self, keySize:int):
         if keySize < 1024:
             print(f"{aqua}[{red}!{aqua}] {red}Key size is less than 1024 bits{aqua}!{reset}")
-            sys.exit(1)
+            exitProg(1)
 
 
     # function to check if user trys to decrypt with public key
-    def checkPubKeyDec (self, keyPath:str) -> None:
+    def checkPubKeyDec(self, keyPath:str):
         if "public" in keyPath:
             print(f"{aqua}[{red}!{aqua}] {red}Cannot decrypt with public key{aqua}!{reset}")
-            sys.exit(1)
+            exitProg(1)
 
 
     # function to check if user trys to encrypt with private key
-    def checkPrivkeyEnc(self, keyPath:str) -> None:
+    def checkPrivkeyEnc(self, keyPath:str):
         if "private" in keyPath:
             print(f"{aqua}[{red}!{aqua}] {red}Cannot encrypt with private key{aqua}!{reset}")
-            sys.exit(1)
-        
+            exitProg(1)
 
-    # This function handle AES encryption or decrption
+
+    # This function handle AES encryption and decryption
     def aesAction(self, msg, encryption=True):
         if encryption:
             encrypted_msg = self.a_obj.aesEncrypt(msg.encode(), self.getPassword())
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}{reset}")
 
-        elif not encryption:            
+        else:            
             try:
                 decrypted_msg = self.a_obj.aesDecrypt(b64decode(msg.encode()),self.getPassword(False))
                 print(f"{aqua}[{red}${aqua}] {red}Decrypted MSG{aqua}:{red} {decrypted_msg.decode()}{reset}")
 
             except ValueError:
                 print(f"{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!{reset}")
-                sys.exit(1)
+                exitProg(1)
 
 
     # This function handle AES file Encryption 
@@ -187,10 +189,10 @@ class Action:
 
             except ValueError:
                 print(f"\n{aqua}[{red}!{aqua}] {red}Password is incorrect{aqua}!{reset}")
-                sys.exit(1)
+                exitProg(1)
 
 
-    # This function handle RSA encryption and decryption!
+    # This function handle RSA encryption and decryption
     def rsaAction(self, msg:str, keyPath:str, encryption=True):
         if encryption:
             self.checkPrivkeyEnc(keyPath)
@@ -205,7 +207,7 @@ class Action:
 
             except ValueError:
                 print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!{reset}")
-                sys.exit(1)
+                exitProg(1)
 
 
     # This function handle RSA file Encryption and Decryption
@@ -233,4 +235,4 @@ class Action:
 
             except ValueError:
                 print(f"{aqua}[{red}!{aqua}] {red}Wrong Decryption Key {aqua}!{reset}")
-                sys.exit(1)
+                exitProg(1)
