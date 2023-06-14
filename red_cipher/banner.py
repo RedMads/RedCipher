@@ -27,7 +27,7 @@ banner = f"""
 
    {red}Professional Encryption {aqua}/{red} Decryption program {aqua}!
 
-   {" " * 5}{aqua}{pickRandSepChar() * 35}{red}
+   {" " * 5}{aqua}{pickRandSepChar() * 35}{red}{reset}
 
 """             
 
