@@ -10,7 +10,6 @@ import secrets
 
 
 class AesEncryptor:
-
     def __init__(self):
         self.key_length = 32 # 256 bits key length
         self.iv_length = 16 # 128 bits IV length
@@ -115,7 +114,7 @@ class AesEncryptor:
     # Decrypt file with AES-256 CBC mode !
     def aesDecryptFile(self, enc_filename, key):
         dec_filename = self.encryptFileName(enc_filename, key, False)
-        
+
         with open(enc_filename, "rb") as enc_file:
             enc_data = enc_file.read()
 
