@@ -1,6 +1,8 @@
 from .rsa_encryptor import RsaEncryptor
 from .banner import *
 from .aes_encryptor import AesEncryptor
+from .handle_json import HandleJson
+from .utils import *
 from base64 import b64encode, b64decode
 import getpass
 import os
@@ -12,10 +14,11 @@ class Action:
     def __init__(self):        
         self.e_obj = RsaEncryptor()
         self.a_obj = AesEncryptor()
+        self.h_obj = HandleJson()
 
+        self.h_obj.loadJson()
+        self.settings = self.h_obj.getSettings()
 
-    def exitProg(code):
-        sys.exit(code)
 
     # This Function ask the user to input password !
     def getPassword(self, retype=True):
@@ -39,8 +42,13 @@ class Action:
             key = self.a_obj.password2AesKey(password)
             return key
 
-        
-    # This function check if file is exists or not
+
+    def checkExt(self, settings):
+        if not settings["extension"]:
+            print(f"{aqua}[{red}!{aqua}] {red}Extension needs to be specified {aqua}!{reset}")
+            exitProg(1)
+
+
     def checkFile(self, filepath, message="File not found"):
         try:
             open(filepath, "rb").close()
@@ -50,14 +58,12 @@ class Action:
             exitProg(1)
 
 
-    # This function check if the path is directory or file 
     def checkDir(self, path):
         if os.path.isdir(path):
             print(f"{aqua}[{red}!{aqua}] {red}This is not file is a directory {aqua}!{reset}")
             exitProg(1)
 
 
-    # simple function to check what platform program run at
     def checkOS(self):
         if os.name == "nt":
             return ("windows", "\\")
@@ -65,7 +71,6 @@ class Action:
             return ("linux", "/")
 
 
-    # This function copy files
     def copyFile(self, filepath):
         filename = os.path.basename(filepath)
         slash = self.checkOS()[1]
@@ -79,7 +84,6 @@ class Action:
         return c_filepath
 
 
-    # simple function check file permssion !
     def checkPermission(self, filepath):
         try:
             open(filepath, "rb+").close()
@@ -89,14 +93,13 @@ class Action:
             exitProg(1)
 
 
-    # simple function for check multi checks in one call !
-    def checkAll(self, filepath):
+    def checkAll(self, filepath, settings):
         self.checkDir(filepath)
         self.checkFile(filepath)
         self.checkPermission(filepath)
+        self.checkExt(settings)
 
 
-    # This function if he want overwrite file with encryption or not
     def overwriteAction(self):
         # Just give the user some spcae LOL !
         answers_y = ["y", "yes", "ye","yep", "yah", "ya", "yeah"]
@@ -116,7 +119,7 @@ class Action:
     def overwriteKeysAction(self, keySize:int):
         # Just give the user some spcae LOL ! *2*
         answers_y = ["y", "yes", "ye","yep", "yah", "ya", "yeah"]
-        
+
         while True:
             #xP0: Defaults to "NO"/Don't overwrite
             inp = input(f"{aqua}[{red}?{aqua}]{red} you have keys in {self.e_obj.keys_dir} do you want overwrite it {aqua}({red}y{aqua}/{red}N{aqua}): {red} {reset}")
@@ -126,32 +129,27 @@ class Action:
 
             self.e_obj.generateRsaKeys(True, keySize)
             print(f"{aqua}[{red}${aqua}]{red} keys successfully generated {self.e_obj.keys_dir}{reset}")
+            break
 
-            return
 
-
-    # function output message to user if he try generate key less than 1024 bit
     def rsaKeyMinAction(self, keySize:int):
         if keySize < 1024:
             print(f"{aqua}[{red}!{aqua}] {red}Key size is less than 1024 bits{aqua}!{reset}")
             exitProg(1)
 
 
-    # function to check if user trys to decrypt with public key
     def checkPubKeyDec(self, keyPath:str):
         if "public" in keyPath:
             print(f"{aqua}[{red}!{aqua}] {red}Cannot decrypt with public key{aqua}!{reset}")
             exitProg(1)
 
 
-    # function to check if user trys to encrypt with private key
     def checkPrivkeyEnc(self, keyPath:str):
         if "private" in keyPath:
             print(f"{aqua}[{red}!{aqua}] {red}Cannot encrypt with private key{aqua}!{reset}")
             exitProg(1)
 
 
-    # This function handle AES encryption and decryption
     def aesAction(self, msg, encryption=True):
         if encryption:
             encrypted_msg = self.a_obj.aesEncrypt(msg.encode(), self.getPassword())
@@ -167,15 +165,14 @@ class Action:
                 exitProg(1)
 
 
-    # This function handle AES file Encryption 
     def aesFileAction(self, path, encryption=True):
-        self.checkAll(path)
+        self.checkAll(path, self.settings)
 
         if encryption:
             overwrite_answer = self.overwriteAction()
             if  overwrite_answer == "y":
                 self.a_obj.aesEncryptFile(path, self.getPassword())
-                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully (file overwrittin){aqua}!{reset}")
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully (file overwritten){aqua}!{reset}")
 
             elif overwrite_answer == "n":
                 c_filepath = self.copyFile(path)
@@ -192,13 +189,12 @@ class Action:
                 exitProg(1)
 
 
-    # This function handle RSA encryption and decryption
     def rsaAction(self, msg:str, keyPath:str, encryption=True):
         if encryption:
             self.checkPrivkeyEnc(keyPath)
             encrypted_msg = self.e_obj.rsaEncrypt(msg.encode("utf-8"), keyPath)[1]
             print(f"{aqua}[{red}${aqua}] {red}Encrypted MSG{aqua}:{red} {b64encode(encrypted_msg).decode()}{reset}")
-        
+
         else:
             self.checkPubKeyDec(keyPath)
             try:
@@ -210,9 +206,8 @@ class Action:
                 exitProg(1)
 
 
-    # This function handle RSA file Encryption and Decryption
     def rsaFileAction(self, path:str, keyPath:str, encryption=True):
-        self.checkAll(path)
+        self.checkAll(path, self.settings)
 
         if encryption:
             self.checkPrivkeyEnc(keyPath)
@@ -220,7 +215,7 @@ class Action:
             
             if overwrite_answer == "y":
                 self.e_obj.rsaEncryptFile(path, keyPath)
-                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully (file overwrittin){aqua}!{reset}")
+                print(f"{aqua}[{red}${aqua}] {red}{path} Encrypted successfully (file overwritten){aqua}!{reset}")
 
             elif overwrite_answer == "n":
                 c_filepath = self.copyFile(path)
