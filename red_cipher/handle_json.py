@@ -1,9 +1,10 @@
+from .banner import *
+from .utils import *
 import json
 import os
 
 
 class HandleJson:
-
     def __init__(self):
         self.settings = {}
 
@@ -19,7 +20,6 @@ class HandleJson:
 
         except FileNotFoundError:
             self.settings = {
-                
                 "settings": {
                     "extension": ".redc",
                     "keySize": 3072,
@@ -27,15 +27,16 @@ class HandleJson:
                     "useSalt": True,
                     "encryptFileName": False
                 }
-
             }
 
 
     def writeSettings(self):
         self.loadJson()
-        
         with open(self.settingsPath, "w") as settingsFile:
             settingsFile.write(json.dumps(self.settings, indent=4))
+
+    def getSettings(self):
+        return self.settings["settings"]
 
     def getVal(self, key):
         return self.settings["settings"][key]
