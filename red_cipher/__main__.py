@@ -7,8 +7,6 @@ import os
 
 
 class Main:
-
-
     def __init__(self):
 
         self.e_obj = RsaEncryptor()
@@ -16,6 +14,7 @@ class Main:
         self.h_obj = HandleJson()
 
         self.h_obj.loadJson()
+        self.settings = self.h_obj.getSettings()
 
         self.keySize = self.h_obj.getVal("keySize")
 
@@ -34,17 +33,17 @@ class Main:
         
         self.show_help = True
         self.help = None
-        
+
 
     def check_args(self):
         parser = argparse.ArgumentParser()
-        
+
         parser.add_argument("-e", "--encrypt", required=False, type=str, metavar="", help="-e < AES, RSA > : to encrypt")
         parser.add_argument("-d", "--decrypt", required=False, type=str, metavar="", help="-d < AES, RSA > : to decrypt")
         parser.add_argument("-f", "--file", required=False, type=str, metavar="", help="-f < filePath > : specify file path")
         parser.add_argument("-m", "--message", required=False, type=str, metavar="", help="-m < message > : specify message")
         parser.add_argument("-g", "--generate", required=False, type=int, metavar="", help="-g < byteSize > : generate rsa keys")
-        parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < keyFilePath > : load key file to encrypt or decrypt")
+        parser.add_argument("-l", "--load", required=False, type=str, metavar="", help="-l < keyFile > : load key file to encrypt or decrypt")
         
 
         args = parser.parse_args()
@@ -107,7 +106,7 @@ class Main:
 
         elif str(self.algo).lower() == "rsa":
             if self.file_mode:
-                self.a_obj.checkAll(self.file_path)
+                self.a_obj.checkAll(self.file_path, self.settings)
                 self.a_obj.rsaFileAction(self.file_path, self.load_path, self.enc_mode)
             
             else:
