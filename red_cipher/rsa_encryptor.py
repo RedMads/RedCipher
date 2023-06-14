@@ -6,7 +6,6 @@ from .aes_encryptor import AesEncryptor
 
 # RSA Encryptor class
 class RsaEncryptor:
-
     def __init__(self):
         self.h_obj = HandleJson()
         self.a_obj = AesEncryptor()
@@ -14,7 +13,6 @@ class RsaEncryptor:
         self.h_obj.loadJson()
         self.ext = self.h_obj.getVal("extension")
         self.keys_size = self.h_obj.getVal("keySize")
-
 
         # Path convert paths to system default format
         # path.dirname extract the dirname of a __file__
@@ -27,7 +25,7 @@ class RsaEncryptor:
     def checkCustomKey(self, keyPath: str, privKey: bool=False) -> open:
         if keyPath:
             return open(keyPath)
-        
+
         # if the user didn't specify any path we gonna load default key path
         else:
             if privKey:
@@ -38,7 +36,7 @@ class RsaEncryptor:
 
     # This Function Generate RSA keys and write them in files !
     # Args < KeySize: int / default: 2048 >
-    # Notice: the keys size was taken from constructor function up!     ((xP0: what does this mean?))
+    # Notice: the keys size was taken from constructor function up!
     def generateRsaKeys(self, cmd=False, size=2048):
         if cmd:
             # take the size of bytes that user has specify
@@ -73,7 +71,7 @@ class RsaEncryptor:
 
 
     def rsaDecrypt(self, enc_message:bytes, privkPath=""):
-        privFile = self.checkCostumKey(privkPath, True).read()
+        privFile = self.checkCustomKey(privkPath, True).read()
 
         key = RSA.import_key(privFile)
         rsa_cipher = PKCS1_OAEP.new(key)
@@ -90,27 +88,23 @@ class RsaEncryptor:
             data = file.read()
             key, encrypted_data = self.rsaEncrypt(data, keyPath)
 
-
         # check if the use specify encrypt file feature or not
         # if it so we will store the encrypted name of file to variable
         # otherwise we will retrun False to this variable
         enc_filename = self.a_obj.encryptFileName(filepath, key)
+        
+        if not enc_filename:
+            enc_filename = filepath + self.ext
 
-        if enc_filename:
-            with open(enc_filename, "wb") as enc_file:
-                enc_file.write(encrypted_data)
-
-        # append extension to the file
-        else:
-            with open(filepath + self.ext, "wb") as enc_file:
-                enc_file.write(encrypted_data)
+        with open(enc_filename, "wb") as enc_file:
+            enc_file.write(encrypted_data)
 
         # destroy data from the orignal file and delete it
         self.a_obj.shreddingData(filepath)
 
 
     def rsaDecryptFile(self, filepath, keyPath:str):
-        # seprate the filename and the extesion
+        # seprate the filename and the extension
         filename = path.splitext(filepath)
 
         with open(filepath, "rb") as enc_file:
@@ -122,13 +116,10 @@ class RsaEncryptor:
         # otherwise we will retrun False to this variable
         dec_filename = self.a_obj.encryptFileName(filepath, key, False)
 
-        if dec_filename:
-            with open(dec_filename, "wb") as file:
-                file.write(decrypted_data)
+        if not dec_filename:
+            dec_filename = filename[0]
 
-        else:
-            # open the orignal filename
-            with open(filename[0], "wb") as file:
-                file.write(decrypted_data)
+        with open(dec_filename, "wb") as file:
+            file.write(decrypted_data)
 
         self.a_obj.shreddingData(filepath)
