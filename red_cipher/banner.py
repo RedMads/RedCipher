@@ -1,14 +1,15 @@
 from random import choice
-from colorama import Fore
-
-
-red = Fore.RED
-aqua = Fore.CYAN
-blink = "\033[5m"
-reset = Fore.RESET
+from .styles import *
 
 sepChars = "=-*~+._"
 version = f"{aqua}v{red}1{aqua}.{red}0{aqua}.{red}5"
+
+
+def pickRandSepChar():
+        return choice(sepChars)
+
+def outputBanner():
+        print(banner)
 
 banner = f"""
    {red} ____          _  ____ _       _               
@@ -20,16 +21,9 @@ banner = f"""
 
    {red}Professional Encryption {aqua}/{red} Decryption program {aqua}!
 
-   {" " * 5}{aqua}{pickRandSepChar() * 35}{red}
+   {" " * 5}{aqua}{pickRandSepChar() * 35}{red}{reset}
 
 """             
-
-
-def pickRandSepChar():
-        return choice(sepChars)
-
-def outputBanner():
-        print(banner)
 
 
 if __name__ == "__main__":

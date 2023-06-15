@@ -10,7 +10,6 @@ import secrets
 
 
 class AesEncryptor:
-
     def __init__(self):
         self.key_length = 32 # 256 bits key length
         self.iv_length = 16 # 128 bits IV length
@@ -18,7 +17,7 @@ class AesEncryptor:
         self.h_obj = HandleJson()
         self.h_obj.loadJson()
 
-        # get the encrypted extention from the json file !
+        # get the encrypted extention from the json file
         self.ext = self.h_obj.getVal("extension")
         self.iv = secrets.token_bytes(self.iv_length)
 
@@ -31,7 +30,7 @@ class AesEncryptor:
         elif enc.lower() == "hex":
             return hexlify(secrets.token_bytes(self.key_length))
 
-        # if the arg sommethig else we will retrun
+        # if the arg somethig else we will retrun
         # key as byte formated
         else:
             return secrets.token_bytes(self.key_length)
@@ -115,7 +114,7 @@ class AesEncryptor:
     # Decrypt file with AES-256 CBC mode !
     def aesDecryptFile(self, enc_filename, key):
         dec_filename = self.encryptFileName(enc_filename, key, False)
-        
+
         with open(enc_filename, "rb") as enc_file:
             enc_data = enc_file.read()
 
@@ -137,14 +136,14 @@ class AesEncryptor:
     # simple function take a path extract filename
     # and return it encrypted / decrypted !
     def encryptFileName(self, filepath, key, encryption=True):
+        if not self.h_obj.getVal("encryptFileName"):
+            return False
+
         dirname = os.path.dirname(filepath)
         basename = os.path.basename(filepath)
 
         if filepath in os.listdir("."):
             dirname = "." + dirname
-
-        if not self.h_obj.getVal("encryptFileName"):
-            return False
 
         if encryption:
             return str(Path(dirname + "/" + hexlify(self.aesEncrypt(basename.encode(), key)).decode() + self.ext))
